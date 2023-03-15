@@ -387,22 +387,14 @@ function Home() {
         </Row>
 
         <Row gutter={[24, 0]}>
-          <Col xs={24} sm={24} md={12} lg={12} xl={16} className="mb-24">
+          <Col xs={24} sm={24} md={12} lg={12} xl={24} className="mb-24">
             <Card bordered={false} className="criclebox cardbody h-full">
               <div className="project-ant">
                 <div>
                   <Title level={5}>Projects</Title>
-                  <Paragraph className="lastweek">
-                    done this month<span className="blue">40%</span>
-                  </Paragraph>
                 </div>
                 <div className="ant-filtertabs">
-                  <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">
-                    <Radio.Group onChange={onChange} defaultValue="a">
-                      <Radio.Button value="a">ALL</Radio.Button>
-                      <Radio.Button value="b">ONLINE</Radio.Button>
-                      <Radio.Button value="c">STORES</Radio.Button>
-                    </Radio.Group>
+                  <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">                 
                   </div>
                 </div>
               </div>
@@ -429,14 +421,13 @@ function Home() {
                             {d.Title}
                           </h6>
                         </td>
-                        <td>{d.member}</td>
                         <td>
-                          <span className="text-xs font-weight-bold">
-                            {d.bud}{" "}
-                          </span>
+                          
                         </td>
                         <td>
-                          <div className="percent-progress">{d.progress}</div>
+                          
+                        </td>
+                        <td>
                         </td>
                       </tr>
                     ))}
@@ -445,47 +436,10 @@ function Home() {
               </div>
               <div className="uploadfile shadow-none">
                 <Upload {...uploadProps}>
-                  <Button
-                    type="dashed"
-                    className="ant-full-box"
-                    icon={<ToTopOutlined />}
-                  >
-                    <span className="click">Click to Upload</span>
-                  </Button>
                 </Upload>
               </div>
             </Card>
-          </Col>
-          <Col xs={24} sm={24} md={12} lg={12} xl={8} className="mb-24">
-            <Card bordered={false} className="criclebox h-full">
-              <div className="timeline-box">
-                <Title level={5}>Orders History</Title>
-                <Paragraph className="lastweek" style={{ marginBottom: 24 }}>
-                  this month <span className="bnb2">20%</span>
-                </Paragraph>
-
-                <Timeline
-                  pending="Recording..."
-                  className="timelinelist"
-                  reverse={reverse}
-                >
-                  {timelineList.map((t, index) => (
-                    <Timeline.Item color={t.color} key={index}>
-                      <Title level={5}>{t.title}</Title>
-                      <Text>{t.time}</Text>
-                    </Timeline.Item>
-                  ))}
-                </Timeline>
-                <Button
-                  type="primary"
-                  className="width-100"
-                  onClick={() => setReverse(!reverse)}
-                >
-                  {<MenuUnfoldOutlined />} REVERSE
-                </Button>
-              </div>
-            </Card>
-          </Col>
+          </Col>     
         </Row>
       </div>
     </>
