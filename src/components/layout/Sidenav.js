@@ -146,7 +146,7 @@ function Sidenav({ color }) {
   return (
     <>
       <div>        
-        <img src={logo} alt="" style={{height: 160, marginLeft: 20 }} />
+        <img src={logo} alt="Applicatio logo" style={{height: 160, marginLeft: 20 }} />
       </div>
       <hr />
       <Menu theme="light" mode="inline">
