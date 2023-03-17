@@ -18,19 +18,20 @@ import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Main from "./components/layout/Main";
-import { getAllCoins } from "./api/api";
+import { useApi } from "./hooks/useApi";
 import "antd/dist/antd.css";
 import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
 
 function App() {
-const [coins, setCoins] = useState()
+const [coins, setCoins] = useState();
+const { handleAllCoins } = useApi();
 
   useEffect(() => {
-    getAllCoins().then((res) => setCoins(res))
+    handleAllCoins().then((res) => setCoins(res))
   }, [])
 
-  console.log(coins)
+ console.log(coins)
 
   return (
     <div className="App">
