@@ -10,6 +10,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 import { Switch, Route, Redirect } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Home from "./pages/Home";
 import Tables from "./pages/Tables";
 import Billing from "./pages/Billing";
@@ -17,11 +18,20 @@ import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Main from "./components/layout/Main";
+import { getAllCoins } from "./api/api";
 import "antd/dist/antd.css";
 import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
 
 function App() {
+const [coins, setCoins] = useState()
+
+  useEffect(() => {
+    getAllCoins().then((res) => setCoins(res))
+  }, [])
+
+  console.log(coins)
+
   return (
     <div className="App">
       <Switch>
