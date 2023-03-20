@@ -9,7 +9,8 @@
   =========================================================
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { useState } from "react";
+import { useState, useEffect } from 'react';
+import { useApi } from '../api';
 
 import {
   Card,
@@ -20,38 +21,31 @@ import {
   Progress,
   Upload,
   message,
-  Button,
-  Timeline,
-  Radio,
-} from "antd";
-import {
-  ToTopOutlined,
-  MenuUnfoldOutlined,
-  RightOutlined,
-} from "@ant-design/icons";
-import Paragraph from "antd/lib/typography/Paragraph";
+} from 'antd';
 
-import Echart from "../components/chart/EChart";
-import LineChart from "../components/chart/LineChart";
+import Echart from '../components/chart/EChart';
+import LineChart from '../components/chart/LineChart';
 
-import ava1 from "../assets/images/logo-shopify.svg";
-import ava2 from "../assets/images/logo-atlassian.svg";
-import ava3 from "../assets/images/logo-slack.svg";
-import ava4 from "../assets/images/logo-spotify.svg";
-import ava5 from "../assets/images/logo-jira.svg";
-import ava6 from "../assets/images/logo-invision.svg";
-import team1 from "../assets/images/team-1.jpg";
-import team2 from "../assets/images/team-2.jpg";
-import team3 from "../assets/images/team-3.jpg";
-import team4 from "../assets/images/team-4.jpg";
-import card from "../assets/images/info-card-1.jpg";
+import ava1 from '../assets/images/logo-shopify.svg';
+import ava2 from '../assets/images/logo-atlassian.svg';
+import ava3 from '../assets/images/logo-slack.svg';
+import ava4 from '../assets/images/logo-spotify.svg';
+import ava5 from '../assets/images/logo-jira.svg';
+import ava6 from '../assets/images/logo-invision.svg';
+import team1 from '../assets/images/team-1.jpg';
+import team2 from '../assets/images/team-2.jpg';
+import team3 from '../assets/images/team-3.jpg';
+import team4 from '../assets/images/team-4.jpg';
 
 function Home() {
-  const { Title, Text } = Typography;
+  const { Title } = Typography;
 
-  const onChange = (e) => console.log(`radio checked:${e.target.value}`);
+  const [coins, setCoins] = useState();
+  const { handleAllCoins } = useApi();
 
-  const [reverse, setReverse] = useState(false);
+  useEffect(() => {
+    handleAllCoins().then((res) => setCoins(res));
+  }, []);
 
   const dollor = [
     <svg
@@ -141,40 +135,40 @@ function Home() {
   ];
   const count = [
     {
-      today: "Today’s Sales",
-      title: "$53,000",
-      persent: "+30%",
+      today: 'Today’s Sales',
+      title: '$53,000',
+      persent: '+30%',
       icon: dollor,
-      bnb: "bnb2",
+      bnb: 'bnb2',
     },
     {
-      today: "Today’s Users",
-      title: "3,200",
-      persent: "+20%",
+      today: 'Today’s Users',
+      title: '3,200',
+      persent: '+20%',
       icon: profile,
-      bnb: "bnb2",
+      bnb: 'bnb2',
     },
     {
-      today: "New Clients",
-      title: "+1,200",
-      persent: "-20%",
+      today: 'New Clients',
+      title: '+1,200',
+      persent: '-20%',
       icon: heart,
-      bnb: "redtext",
+      bnb: 'redtext',
     },
     {
-      today: "New Orders",
-      title: "$13,200",
-      persent: "10%",
+      today: 'New Orders',
+      title: '$13,200',
+      persent: '10%',
       icon: cart,
-      bnb: "bnb2",
+      bnb: 'bnb2',
     },
   ];
 
   const list = [
     {
       img: ava1,
-      Title: "Soft UI Shopify Version",
-      bud: "$14,000",
+      Title: 'Soft UI Shopify Version',
+      bud: '$14,000',
       progress: <Progress percent={60} size="small" />,
       member: (
         <div className="avatar-group mt-2">
@@ -195,8 +189,8 @@ function Home() {
     },
     {
       img: ava2,
-      Title: "Progress Track",
-      bud: "$3,000",
+      Title: 'Progress Track',
+      bud: '$3,000',
       progress: <Progress percent={10} size="small" />,
       member: (
         <div className="avatar-group mt-2">
@@ -211,8 +205,8 @@ function Home() {
     },
     {
       img: ava3,
-      Title: "Fix Platform Errors",
-      bud: "Not Set",
+      Title: 'Fix Platform Errors',
+      bud: 'Not Set',
       progress: <Progress percent={100} size="small" status="active" />,
       member: (
         <div className="avatar-group mt-2">
@@ -230,8 +224,8 @@ function Home() {
     },
     {
       img: ava4,
-      Title: "Launch new Mobile App",
-      bud: "$20,600",
+      Title: 'Launch new Mobile App',
+      bud: '$20,600',
       progress: <Progress percent={100} size="small" status="active" />,
       member: (
         <div className="avatar-group mt-2">
@@ -246,8 +240,8 @@ function Home() {
     },
     {
       img: ava5,
-      Title: "Add the New Landing Page",
-      bud: "$4,000",
+      Title: 'Add the New Landing Page',
+      bud: '$4,000',
       progress: <Progress percent={80} size="small" />,
       member: (
         <div className="avatar-group mt-2">
@@ -269,14 +263,14 @@ function Home() {
 
     {
       img: ava6,
-      Title: "Redesign Online Store",
-      bud: "$2,000",
+      Title: 'Redesign Online Store',
+      bud: '$2,000',
       progress: (
         <Progress
           percent={100}
           size="small"
           status="exception"
-          format={() => "Cancel"}
+          format={() => 'Cancel'}
         />
       ),
       member: (
@@ -294,47 +288,47 @@ function Home() {
 
   const timelineList = [
     {
-      title: "$2,400 - Redesign store",
-      time: "09 JUN 7:20 PM",
-      color: "green",
+      title: '$2,400 - Redesign store',
+      time: '09 JUN 7:20 PM',
+      color: 'green',
     },
     {
-      title: "New order #3654323",
-      time: "08 JUN 12:20 PM",
-      color: "green",
+      title: 'New order #3654323',
+      time: '08 JUN 12:20 PM',
+      color: 'green',
     },
     {
-      title: "Company server payments",
-      time: "04 JUN 3:10 PM",
+      title: 'Company server payments',
+      time: '04 JUN 3:10 PM',
     },
     {
-      title: "New card added for order #4826321",
-      time: "02 JUN 2:45 PM",
+      title: 'New card added for order #4826321',
+      time: '02 JUN 2:45 PM',
     },
     {
-      title: "Unlock folders for development",
-      time: "18 MAY 1:30 PM",
+      title: 'Unlock folders for development',
+      time: '18 MAY 1:30 PM',
     },
     {
-      title: "New order #46282344",
-      time: "14 MAY 3:30 PM",
-      color: "gray",
+      title: 'New order #46282344',
+      time: '14 MAY 3:30 PM',
+      color: 'gray',
     },
   ];
 
   const uploadProps = {
-    name: "file",
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+    name: 'file',
+    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
     headers: {
-      authorization: "authorization-text",
+      authorization: 'authorization-text',
     },
     onChange(info) {
-      if (info.file.status !== "uploading") {
+      if (info.file.status !== 'uploading') {
         console.log(info.file, info.fileList);
       }
-      if (info.file.status === "done") {
+      if (info.file.status === 'done') {
         message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
+      } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }
     },
@@ -391,21 +385,23 @@ function Home() {
             <Card bordered={false} className="criclebox cardbody h-full">
               <div className="project-ant">
                 <div>
-                  <Title level={5}>Projects</Title>
+                  <Title level={5}>Coin List</Title>
                 </div>
                 <div className="ant-filtertabs">
-                  <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">                 
-                  </div>
+                  <div className="antd-pro-pages-dashboard-analysis-style-salesExtra"></div>
                 </div>
               </div>
               <div className="ant-list-box table-responsive">
                 <table className="width-100">
                   <thead>
                     <tr>
-                      <th>COMPANIES</th>
-                      <th>MEMBERS</th>
-                      <th>BUDGET</th>
-                      <th>COMPLETION</th>
+                      <th>Coins</th>
+                      <th>Price</th>
+                      <th>Market Cap</th>
+                      <th>High 24h</th>
+                      <th>Low 24h</th>
+                      <th>Price Change 24h</th>
+                      <th>Max Supply</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -417,29 +413,26 @@ function Home() {
                               src={d.img}
                               alt=""
                               className="avatar-sm mr-10"
-                            />{" "}
+                            />{' '}
                             {d.Title}
                           </h6>
                         </td>
-                        <td>
-                          
-                        </td>
-                        <td>
-                          
-                        </td>
-                        <td>
-                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
               <div className="uploadfile shadow-none">
-                <Upload {...uploadProps}>
-                </Upload>
+                <Upload {...uploadProps}></Upload>
               </div>
             </Card>
-          </Col>     
+          </Col>
         </Row>
       </div>
     </>
