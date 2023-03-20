@@ -43,9 +43,9 @@ function Home() {
   const [coins, setCoins] = useState();
   const { handleAllCoins } = useApi();
 
-  useEffect(() => {
-    handleAllCoins().then((res) => setCoins(res));
-  }, []);
+  // useEffect(() => {
+  //   handleAllCoins().then((res) => setCoins(res));
+  // }, []);
 
   const dollor = [
     <svg
