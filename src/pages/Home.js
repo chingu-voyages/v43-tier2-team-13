@@ -227,12 +227,44 @@ const Home = () => {
                                   {coin.name}
                                 </h6>
                               </td>
-                              <td>{coin.current_price}</td>
-                              <td>{coin.market_cap}</td>
-                              <td>{coin.high_24h}</td>
-                              <td>{coin.low_24h}</td>
-                              <td>{coin.price_change_percentage_24h}</td>
-                              <td>{coin.max_supply}</td>
+                              <td>
+                                {coin.current_price?.toLocaleString('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD',
+                                  maximumFractionDigits: 3,
+                                })}
+                              </td>
+                              <td>
+                                {coin.market_cap?.toLocaleString('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD',
+                                  maximumFractionDigits: 0,
+                                })}
+                              </td>
+                              <td>
+                                {coin.high_24h?.toLocaleString('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD',
+                                  maximumFractionDigits: 3,
+                                })}
+                              </td>
+                              <td>
+                                {coin.low_24h?.toLocaleString('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD',
+                                  maximumFractionDigits: 3,
+                                })}
+                              </td>
+                              <td>
+                                {coin.price_change_percentage_24h?.toFixed(2)}
+                              </td>
+                              <td>
+                                {coin.max_supply?.toLocaleString('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD',
+                                  maximumFractionDigits: 0,
+                                })}
+                              </td>
                             </tr>
                           ))
                         ) : (
