@@ -31,7 +31,8 @@ export default function Watchlist(props) {
     }
 
     function removeFromWatchlist(event){
-        console.log(event.target.id)
+        const id = event.target.id
+        setWatchlistCoins(prevCoins => prevCoins.filter(coin => coin.id !== id))
     }
 
     const columns = [
@@ -88,9 +89,11 @@ export default function Watchlist(props) {
 
     return (
         <div>
+            {/* Button included for testing purposes */}
             <Button id="bitcoin" type="primary" danger onClick={(event)=> addCoinToWatchlist(event)}>
             +
             </Button>
+            
             <Table className="watchlist-table" columns={columns} dataSource={watchlistCoins} />
         </div>
     )
