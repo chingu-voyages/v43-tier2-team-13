@@ -3,6 +3,7 @@ import { useApi } from '../hooks/useApi';
 import { Card, Col, Row, Typography, Skeleton } from 'antd';
 import Echart from '../components/chart/EChart';
 import LineChart from '../components/chart/LineChart';
+import './Home.css';
 
 const Home = () => {
   const { Title, Text } = Typography;
@@ -17,8 +18,6 @@ const Home = () => {
       setIsLoading(false);
     });
   }, []);
-
-  console.log(coins);
 
   const dollor = [
     <svg
@@ -200,7 +199,10 @@ const Home = () => {
                       <div className="antd-pro-pages-dashboard-analysis-style-salesExtra"></div>
                     </div>
                   </div>
-                  <div className="ant-list-box table-responsive">
+                  <div
+                    className="ant-list-box table-responsive"
+                    style={{ maxHeight: '500px', overflowY: 'auto' }}
+                  >
                     <table className="width-100">
                       <thead>
                         <tr>
@@ -255,8 +257,20 @@ const Home = () => {
                                   maximumFractionDigits: 3,
                                 })}
                               </td>
-                              <td>
-                                {coin.price_change_percentage_24h?.toFixed(2)}
+                              <td
+                                className={`${
+                                  coin.price_change_percentage_24h > 0
+                                    ? 'green-range'
+                                    : 'red-range'
+                                }`}
+                              >
+                                {coin.price_change_percentage_24h > 0
+                                  ? `+${coin.price_change_percentage_24h?.toFixed(
+                                      2
+                                    )}%`
+                                  : `${coin.price_change_percentage_24h?.toFixed(
+                                      2
+                                    )}%`}
                               </td>
                               <td>
                                 {coin.max_supply?.toLocaleString('en-US', {
