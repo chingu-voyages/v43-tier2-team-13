@@ -10,7 +10,7 @@
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 import { useState, useEffect } from 'react';
-import { useApi } from '../api';
+import { useApi } from '../hooks/useApi';
 
 import {
   Card,
