@@ -341,8 +341,8 @@ function Home() {
     },
   };
 
-//Watchlist table data
 
+//Watchlist table data
 const columns = [
   {
     title: 'Name',
