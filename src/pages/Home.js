@@ -3,6 +3,7 @@ import { useApi } from '../hooks/useApi';
 import { Card, Col, Row, Typography, Skeleton } from 'antd';
 import Echart from '../components/chart/EChart';
 import LineChart from '../components/chart/LineChart';
+import { StarOutlined, StarFilled } from '@ant-design/icons';
 import './Home.css';
 
 const Home = () => {
@@ -10,6 +11,7 @@ const Home = () => {
 
   const [coins, setCoins] = useState();
   const [isLoading, setIsLoading] = useState(true);
+
   const { handleAllCoins } = useApi();
 
   useEffect(() => {
@@ -206,7 +208,8 @@ const Home = () => {
                     <table className="width-100">
                       <thead>
                         <tr>
-                          <th>Coins</th>
+                          <th></th>
+                          <th></th>
                           <th>Price</th>
                           <th>Market Cap</th>
                           <th>High 24h</th>
@@ -219,6 +222,9 @@ const Home = () => {
                         {coins.length > 0 ? (
                           coins.map((coin) => (
                             <tr key={coin.id}>
+                              <td>
+                                <StarOutlined style={{ fontSize: '16px' }} />
+                              </td>
                               <td>
                                 <h6>
                                   <img
