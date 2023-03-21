@@ -11,6 +11,7 @@
 */
 import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi';
+import Watchlist from '../components/Watchlist';
 
 import {
   Card,
@@ -50,12 +51,12 @@ import team4 from '../assets/images/team-4.jpg';
 function Home() {
   const { Title } = Typography;
 
-  const [coins, setCoins] = useState();
+  const [coins, setCoins] = useState([]);
   const { handleAllCoins } = useApi();
-
-  // useEffect(() => {
-  //   handleAllCoins().then((res) => setCoins(res));
-  // }, []);
+  
+  useEffect(() => {
+    handleAllCoins().then((res) => setCoins(res));
+  }, []);
 
   const dollor = [
     <svg
@@ -344,81 +345,6 @@ function Home() {
     },
   };
 
-
-//Watchlist table data
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>,
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: tags => (
-      <>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (text, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    ),
-  },
-];
-
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
-
   return (
     <>
       <div className="layout-content">
@@ -519,8 +445,9 @@ const data = [
             </Card>
           </Col>
         </Row>
-
-        <Table className="watchlist-table" columns={columns} dataSource={data} />
+        <Watchlist 
+          coins={coins}
+        />
       </div>
     </>
   );
