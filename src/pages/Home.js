@@ -21,6 +21,8 @@ const Home = () => {
     });
   }, []);
 
+  console.log(coins);
+
   const dollor = [
     <svg
       width="22"
@@ -109,8 +111,8 @@ const Home = () => {
   ];
   const count = [
     {
-      today: 'Today’s Sales',
-      title: '$53,000',
+      today: 'Price',
+      //title: `${coins[0]?.current_price}$`,
       persent: '+30%',
       icon: dollor,
       bnb: 'bnb2',
@@ -142,33 +144,29 @@ const Home = () => {
     <>
       <div className="layout-content">
         <Row className="rowgap-vbox" gutter={[24, 0]}>
-          {count.map((c, index) => (
-            <Col
-              key={index}
-              xs={24}
-              sm={24}
-              md={12}
-              lg={6}
-              xl={6}
-              className="mb-24"
-            >
+          {isLoading ? (
+            <div style={{ padding: '20px' }}>
+              <Skeleton active />
+            </div>
+          ) : (
+            <Col xs={24} sm={24} md={12} lg={6} xl={6} className="mb-24">
               <Card bordered={false} className="criclebox ">
                 <div className="number">
                   <Row align="middle" gutter={[24, 0]}>
                     <Col xs={18}>
-                      <span>{c.today}</span>
+                      <span>{coins[0].current_price}</span>
                       <Title level={3}>
                         {c.title} <small className={c.bnb}>{c.persent}</small>
                       </Title>
                     </Col>
                     <Col xs={6}>
-                      <div className="icon-box">{c.icon}</div>
+                      <div className="icon-box">{dollor}</div>
                     </Col>
                   </Row>
                 </div>
               </Card>
             </Col>
-          ))}
+          )}
         </Row>
 
         <Row gutter={[24, 0]}>
