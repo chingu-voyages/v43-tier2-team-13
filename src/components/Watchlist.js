@@ -2,8 +2,7 @@ import React, {useState} from 'react'
 import WatchlistCoin from '../watchlistClassConstructor';
 import { useApi } from '../hooks/useApi';
 
-import { Button } from "antd";
-import { Table } from 'antd';
+import { Button, Table, Row, Col, Space } from "antd";
 
 export default function Watchlist(props) {
     const { handleAllCoins } = useApi();
@@ -41,42 +40,34 @@ export default function Watchlist(props) {
             dataIndex: 'rank',
             key: 'rank',
         },
-        {    
-            title: 'Icon',
-            dataIndex: 'image',
-            key: 'image',
-            render: image => <img src={image} style={{width: '20px'}} alt='coin symbol'/>,
-        },
         {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            render: (text, record) => <span style={{textDecoration: 'underline', color: 'blue', cursor: 'pointer'}}>{text} ({record.symbol})</span>,
+            render: (text, record) =>   (<Space size="middle">
+                                            <img src={record.image} style={{width: '25px'}} alt='coin symbol'/>
+                                            <span>{text} ({record.symbol})</span>
+                                        </Space>),
         },
         {
-            title: 'Current Price',
+            title: 'Price',
             dataIndex: 'currentPrice',
             key: 'currentPrice',
-        },
-        {
-            title: 'All Time High',
-            dataIndex: 'ath',
-            key: 'ath',
-        },
-        {
-            title: '24h High',
-            key: 'high24h',
-            dataIndex: 'high24h'
-        },
-        {
-            title: '24h Low',
-            key: 'low24h',
-            dataIndex: 'low24h'
         },
         {
             title: 'Market Cap',
             key: 'mktCap',
             dataIndex: 'mktCap'
+        },
+        {
+            title: 'High 24h',
+            key: 'high24h',
+            dataIndex: 'high24h'
+        },
+        {
+            title: 'Low 24h',
+            key: 'low24h',
+            dataIndex: 'low24h'
         },
         {
             title: '',
@@ -93,8 +84,11 @@ export default function Watchlist(props) {
             <Button id="bitcoin" type="primary" danger onClick={(event)=> addCoinToWatchlist(event)}>
             +
             </Button>
-            
-            <Table className="watchlist-table" columns={columns} dataSource={watchlistCoins} />
+            <Row gutter={[24, 0]}>
+                <Col xs={24} sm={24} md={24} lg={24} xl={24} className="mb-24">
+                    <Table className="watchlist-table" columns={columns} dataSource={watchlistCoins} />
+                </Col>
+            </Row>
         </div>
     )
 }
