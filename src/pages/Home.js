@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi';
-import { Card, Col, Row, Typography, Skeleton } from 'antd';
+import Watchlist from '../components/Watchlist';
 import Echart from '../components/chart/EChart';
 import LineChart from '../components/chart/LineChart';
+import { Card, Col, Row, Typography, Skeleton, Table, Tag, Space } from 'antd';
 import { StarOutlined, StarFilled } from '@ant-design/icons';
 import './Home.css';
 
@@ -298,6 +299,9 @@ const Home = () => {
             </Card>
           </Col>
         </Row>
+        <Watchlist 
+          coins={coins}
+        />
       </div>
     </>
   );
