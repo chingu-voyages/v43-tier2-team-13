@@ -155,9 +155,9 @@ const Home = () => {
                 <div className="number">
                   <Row align="middle" gutter={[24, 0]}>
                     <Col xs={18}>
-                      <span>{coins[0].current_price}</span>
+                      <span>Price</span>
                       <Title level={3}>
-                        {c.title} <small className={c.bnb}>{c.persent}</small>
+                        Title <small className="bnb2">Persent</small>
                       </Title>
                     </Col>
                     <Col xs={6}>
@@ -220,7 +220,10 @@ const Home = () => {
                       <tbody>
                         {coins.length > 0 ? (
                           coins.map((coin) => (
-                            <tr key={coin.id}>
+                            <tr
+                              key={coin.id}
+                              onClick={() => console.log(coin.id)}
+                            >
                               <td>
                                 <StarOutlined style={{ fontSize: '16px' }} />
                               </td>
@@ -297,9 +300,7 @@ const Home = () => {
             </Card>
           </Col>
         </Row>
-        <Watchlist 
-          coins={coins}
-        />
+        <Watchlist coins={coins} />
       </div>
     </>
   );
