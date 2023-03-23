@@ -1,27 +1,35 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import WatchlistCoin from '../watchlistClassConstructor';
 
 import { Table, Row, Col, Space } from "antd";
 
 export default function Watchlist(props) {
-        
+    const [coinToAdd, setCoinToAdd] = useState(props.coinToAdd)
     const [watchlistCoins, setWatchlistCoins] = useState([])
+    
+    useEffect(() => {
+        setCoinToAdd(props.addToWatchlist)
+    }, [props.addToWatchlist])
 
-    function addCoinToWatchlist(event){
-        const clickedCoin = event.target.id
-        if(watchlistCoins.some(coin => coin.id === clickedCoin)){
+    useEffect(() => {
+        coinToAdd && addCoinToWatchlist(coinToAdd)
+    }, [coinToAdd])
+
+    function addCoinToWatchlist(coinToAdd){
+        console.log(coinToAdd)
+        if(watchlistCoins.some(coin => coin.id === coinToAdd)){
             console.log("already watchlisted")
             // switch between filled/unfilled star
         } else {
-              const coinData = props.coins.find(coin => clickedCoin === coin.id)
+              const coinData = props.coins.find(coin => coinToAdd === coin.id)
               const newCoin = new WatchlistCoin(coinData)
               console.log(newCoin)
               setWatchlistCoins(prevCoins => ([...prevCoins, newCoin]))
         }
     }
 
-    function removeFromWatchlist(event){
-        const id = event.target.id
+    function removeFromWatchlist(e){
+        const id = e.target.id
         setWatchlistCoins(prevCoins => prevCoins.filter(coin => coin.id !== id))
     }
 
@@ -70,19 +78,12 @@ export default function Watchlist(props) {
 
 
     return (
-        <div>
-            {/* Button included for testing purposes */}
-            <button id="bitcoin" type="primary" danger onClick={(event)=> addCoinToWatchlist(event)}>
-            +
-            </button>
-
-            {watchlistCoins?.length > 0 ? 
+        <div> 
                 <Row gutter={[24, 0]}>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24} className="mb-24">
                         <Table className="watchlist-table" columns={columns} dataSource={watchlistCoins} />
                     </Col>
                 </Row>
-            : null}
         </div>
     )
 }
