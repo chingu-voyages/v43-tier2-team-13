@@ -3,10 +3,9 @@ import { useApi } from '../hooks/useApi';
 import Watchlist from '../components/Watchlist';
 import Echart from '../components/chart/EChart';
 import LineChart from '../components/chart/LineChart';
-import { Card, Col, Row, Typography, Skeleton } from 'antd';
-import { StarOutlined, StarFilled, BarChartOutlined } from '@ant-design/icons';
 import { HomeCards } from '../components/home-cards/home-cards.component';
 import { CardLoader } from '../components/card-loader/card-loader.component';
+import { Card, Col, Row, Typography, Skeleton } from 'antd';
 import './Home.css';
 
 const dollor = [
@@ -41,6 +40,7 @@ const Home = () => {
   const [coins, setCoins] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCoin, setSelectedCoin] = useState(null);
+  const [addToWatchlist, setAddToWatchlist] = useState('');
 
   const { handleAllCoins } = useApi();
 
@@ -51,6 +51,10 @@ const Home = () => {
       setIsLoading(false);
     });
   }, []);
+
+  function handleClick(event) {
+    setAddToWatchlist(event.target.id);
+  }
 
   const cardsData = (selectedCoin) => [
     {
@@ -174,10 +178,27 @@ const Home = () => {
                               onClick={() => setSelectedCoin(coin)}
                             >
                               <td>
-                                <StarOutlined style={{ fontSize: '16px' }} />
+                                <i
+                                  className="fa-regular fa-star"
+                                  style={{
+                                    fontSize: '16px',
+                                    color: 'orange',
+                                    cursor: 'pointer',
+                                    marginBottom: '7px',
+                                  }}
+                                  onClick={handleClick}
+                                  id={coin.id}
+                                ></i>
+                                {/* <StarOutlined id={coin.id} style={{ fontSize: '16px' }} onClick={handleClick}/> */}
                               </td>
                               <td>
-                                <h6>
+                                <h6
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    lineHeight: '16px',
+                                  }}
+                                >
                                   <img
                                     src={coin.image}
                                     alt={`${coin.name} cryptocurrency`}
@@ -249,7 +270,9 @@ const Home = () => {
             </Card>
           </Col>
         </Row>
-        <Watchlist coins={coins} />
+        {addToWatchlist ? (
+          <Watchlist coins={coins} addToWatchlist={addToWatchlist} />
+        ) : null}
       </div>
     </>
   );
