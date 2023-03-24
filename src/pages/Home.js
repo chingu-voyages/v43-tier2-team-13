@@ -3,7 +3,7 @@ import { useApi } from '../hooks/useApi';
 import Watchlist from '../components/Watchlist';
 import Echart from '../components/chart/EChart';
 import LineChart from '../components/chart/LineChart';
-import { Card, Col, Row, Typography, Skeleton, Table, Tag, Space } from 'antd';
+import { Card, Col, Row, Typography, Skeleton, Tooltip, Button} from 'antd';
 import { StarOutlined, StarFilled } from '@ant-design/icons';
 import './Home.css';
 
@@ -12,6 +12,7 @@ const Home = () => {
 
   const [coins, setCoins] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [addToWatchlist, setAddToWatchlist]= useState('')
 
   const { handleAllCoins } = useApi();
 
@@ -21,6 +22,10 @@ const Home = () => {
       setIsLoading(false);
     });
   }, []);
+
+  function handleClick(event) {
+    setAddToWatchlist(event.target.id);
+  }
 
   const dollor = [
     <svg
@@ -224,10 +229,11 @@ const Home = () => {
                           coins.map((coin) => (
                             <tr key={coin.id}>
                               <td>
-                                <StarOutlined style={{ fontSize: '16px' }} />
+                                <i className="fa-regular fa-star" style={{fontSize: '16px', color: 'orange', cursor: 'pointer', marginBottom: '7px'}} onClick={handleClick} id={coin.id}></i>
+                                {/* <StarOutlined id={coin.id} style={{ fontSize: '16px' }} onClick={handleClick}/> */}
                               </td>
                               <td>
-                                <h6>
+                                <h6 style={{display: 'flex', alignItems: 'center', lineHeight: '16px'}}>
                                   <img
                                     src={coin.image}
                                     alt={`${coin.name} cryptocurrency`}
@@ -299,9 +305,13 @@ const Home = () => {
             </Card>
           </Col>
         </Row>
-        <Watchlist 
+
+        {addToWatchlist ? <Watchlist 
           coins={coins}
+          addToWatchlist={addToWatchlist}
         />
+        : null}
+
       </div>
     </>
   );
