@@ -23,7 +23,6 @@ export default function Watchlist(props) {
         } else {
               const coinData = props.coins.find(coin => coinToAdd === coin.id)
               const newCoin = new WatchlistCoin(coinData)
-              console.log(newCoin)
               setWatchlistCoins(prevCoins => ([...prevCoins, newCoin]))
         }
     }
