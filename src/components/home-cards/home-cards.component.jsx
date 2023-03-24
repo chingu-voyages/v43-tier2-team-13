@@ -15,7 +15,16 @@ export const HomeCards = ({ cardsData }) => {
               </Title>
             </Col>
             <Col xs={6}>
-              <div className="icon-box">{cardsData.logo}</div>
+              <div
+                className="icon-box"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                {cardsData.logo}
+              </div>
             </Col>
           </Row>
         </div>

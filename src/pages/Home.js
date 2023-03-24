@@ -4,8 +4,9 @@ import Watchlist from '../components/Watchlist';
 import Echart from '../components/chart/EChart';
 import LineChart from '../components/chart/LineChart';
 import { Card, Col, Row, Typography, Skeleton } from 'antd';
-import { StarOutlined, StarFilled } from '@ant-design/icons';
+import { StarOutlined, StarFilled, BarChartOutlined } from '@ant-design/icons';
 import { HomeCards } from '../components/home-cards/home-cards.component';
+import { CardLoader } from '../components/card-loader/card-loader.component';
 import './Home.css';
 
 const dollor = [
@@ -51,11 +52,9 @@ const Home = () => {
     });
   }, []);
 
-  console.log(coins);
-
   const cardsData = (selectedCoin) => [
     {
-      id: selectedCoin.id,
+      id: '1',
       title: 'Price',
       value: selectedCoin.current_price.toLocaleString('en-US', {
         style: 'currency',
@@ -69,46 +68,40 @@ const Home = () => {
       logo: dollor,
     },
     {
-      id: selectedCoin.id,
-      title: 'Price',
-      value: selectedCoin.current_price.toLocaleString('en-US', {
+      id: '2',
+      title: 'Market Cap',
+      value: selectedCoin.market_cap.toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
-        maximumFractionDigits: 3,
+        maximumFractionDigits: 0,
       }),
       percentage:
-        selectedCoin.price_change_percentage_24h > 0
-          ? `+${selectedCoin.price_change_percentage_24h?.toFixed(2)}%`
-          : `${selectedCoin.price_change_percentage_24h?.toFixed(2)}%`,
-      logo: dollor,
+        selectedCoin.market_cap_change_percentage_24h > 0
+          ? `+${selectedCoin.market_cap_change_percentage_24h?.toFixed(2)}%`
+          : `${selectedCoin.market_cap_change_percentage_24h?.toFixed(2)}%`,
+      logo: '📉',
     },
     {
-      id: selectedCoin.id,
-      title: 'Price',
-      value: selectedCoin.current_price.toLocaleString('en-US', {
+      id: '3',
+      title: 'Circulating Supply',
+      value: selectedCoin.circulating_supply.toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
-        maximumFractionDigits: 3,
+        maximumFractionDigits: 0,
       }),
-      percentage:
-        selectedCoin.price_change_percentage_24h > 0
-          ? `+${selectedCoin.price_change_percentage_24h?.toFixed(2)}%`
-          : `${selectedCoin.price_change_percentage_24h?.toFixed(2)}%`,
-      logo: dollor,
+      percentage: '',
+      logo: '💳',
     },
     {
-      id: selectedCoin.id,
-      title: 'Price',
-      value: selectedCoin.current_price.toLocaleString('en-US', {
+      id: '4',
+      title: 'Total Volume',
+      value: selectedCoin.total_volume.toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
-        maximumFractionDigits: 3,
+        maximumFractionDigits: 0,
       }),
-      percentage:
-        selectedCoin.price_change_percentage_24h > 0
-          ? `+${selectedCoin.price_change_percentage_24h?.toFixed(2)}%`
-          : `${selectedCoin.price_change_percentage_24h?.toFixed(2)}%`,
-      logo: dollor,
+      percentage: '',
+      logo: '🏛️',
     },
   ];
 
@@ -116,43 +109,14 @@ const Home = () => {
     <>
       <div className="layout-content">
         <Row className="rowgap-vbox" gutter={[24, 0]}>
-          {isLoading ? (
-            <>
-              <Col xs={24} sm={24} md={12} lg={6} xl={6} className="mb-24">
-                <Card bordered={false} className="criclebox ">
-                  <div style={{ padding: '20px' }}>
-                    <Skeleton active />
-                  </div>
-                </Card>
-              </Col>
-              <Col xs={24} sm={24} md={12} lg={6} xl={6} className="mb-24">
-                <Card bordered={false} className="criclebox ">
-                  <div style={{ padding: '20px' }}>
-                    <Skeleton active />
-                  </div>
-                </Card>
-              </Col>
-              <Col xs={24} sm={24} md={12} lg={6} xl={6} className="mb-24">
-                <Card bordered={false} className="criclebox ">
-                  <div style={{ padding: '20px' }}>
-                    <Skeleton active />
-                  </div>
-                </Card>
-              </Col>
-              <Col xs={24} sm={24} md={12} lg={6} xl={6} className="mb-24">
-                <Card bordered={false} className="criclebox ">
-                  <div style={{ padding: '20px' }}>
-                    <Skeleton active />
-                  </div>
-                </Card>
-              </Col>
-            </>
-          ) : (
-            selectedCoin &&
-            cardsData(selectedCoin).map((card) => (
-              <HomeCards key={card.id} cardsData={card} />
-            ))
-          )}
+          {isLoading
+            ? ['first', 'second', 'third', 'fourth'].map((element) => (
+                <CardLoader key={element} />
+              ))
+            : selectedCoin &&
+              cardsData(selectedCoin).map((card) => (
+                <HomeCards key={card.id} cardsData={card} />
+              ))}
         </Row>
 
         <Row gutter={[24, 0]}>
