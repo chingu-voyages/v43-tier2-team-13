@@ -6,6 +6,7 @@ import LineChart from '../components/chart/LineChart';
 import { HomeCards } from '../components/home-cards/home-cards.component';
 import { CardLoader } from '../components/card-loader/card-loader.component';
 import { Card, Col, Row, Typography, Skeleton } from 'antd';
+import { sampleData } from '../utils/sample-data';
 import './Home.css';
 
 const Home = () => {
