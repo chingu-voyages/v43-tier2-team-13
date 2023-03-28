@@ -1,6 +1,6 @@
 # CryptoWorld Chingu Voyage Project
 
-CryptoWorld is a one stop solution to all your crypto needs. Track, manage and update your crypto assets.
+CryptoWorld is a one stop solution for all your crypto needs. Track and manage your crypto assets. Update yourself to the latest news in Web3.
 
 
 ## Table of contents
@@ -17,8 +17,8 @@ CryptoWorld is a one stop solution to all your crypto needs. Track, manage and u
 
 Users should be able to:
 - Login / Sign up and manage user profile.
-- Keep track of different crypto currencies.
-- Stay informed with latest crypto trends.
+- Keep track of different coins in a watchlist.
+- Stay informed with latest crypto news.
 
 ### Screenshot
 
