@@ -1,6 +1,6 @@
 # CryptoWorld Chingu Voyage Project
 
-CryptoWorld is a one stop solution for all your crypto needs. Track and manage your crypto assets. Update yourself to the latest news in Web3.
+CryptoWorld is a one stop solution for all your crypto needs. Track and manage your crypto assets. Update yourself with the latest news in Web3.
 
 
 ## Table of contents
@@ -52,5 +52,5 @@ Start the dev server in your local machine:
 npm run start
 ```
 
-**Note:** Build will fail if using `Node v18`. Please stick to using `Node v16`.
+**Note:** The build will fail if you're using `Node v18`. Please stick to using `Node v16` to avoid errors.
 
