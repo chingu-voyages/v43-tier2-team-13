@@ -9,7 +9,8 @@
   =========================================================
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../../firebaseConfig"
 import { useState, useEffect } from "react";
 
 import {
@@ -262,11 +263,59 @@ function Header({
 
   const [visible, setVisible] = useState(false);
   const [sidenavType, setSidenavType] = useState("transparent");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => window.scrollTo(0, 0));
 
   const showDrawer = () => setVisible(true);
   const hideDrawer = () => setVisible(false);
+
+  const [loadings, setLoadings] = useState([]);
+  const enterLoading = (index) => {
+    setLoadings((prevLoadings) => {
+      const newLoadings = [...prevLoadings];
+      newLoadings[index] = true;
+      return newLoadings;
+    });
+    setTimeout(() => {
+      setLoadings((prevLoadings) => {
+        const newLoadings = [...prevLoadings];
+        newLoadings[index] = false;
+        return newLoadings;
+      });
+    }, 2000);
+  };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        setLoggedIn(true)
+        console.log(uid, 'logged in')
+        // ...
+      } else {
+        enterLoading(2)
+        setTimeout(() => {
+        setLoggedIn(false)
+        }, 2000);
+        // User is signed out
+        // ...
+      }
+    });
+  }, []);
+
+  function handleSignOut(){
+    signOut(auth).then(() => {
+        // Sign-out successful.
+        console.log('sign out successful')
+    }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage)
+    });
+}
 
   return (
     <>
@@ -418,10 +467,19 @@ function Header({
               </div>
             </div>
           </Drawer>
+          {loggedIn 
+          ? 
+            <div>
+              {profile}
+              <Button type='default' size='large' loading={loadings[2]} onClick={handleSignOut} style={{cursor: 'pointer'}}>Sign Out</Button>
+            </div>
+          : 
+          
           <Link to="/sign-in" className="btn-sign-in">
             {profile}
             <span>Sign in</span>
           </Link>
+          }
           <Input
             className="header-search"
             placeholder="Type here..."
@@ -434,3 +492,4 @@ function Header({
 }
 
 export default Header;
+
