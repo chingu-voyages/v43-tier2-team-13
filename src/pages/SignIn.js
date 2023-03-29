@@ -9,6 +9,8 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -115,9 +117,20 @@ const signin = [
   </svg>,
 ];
 export default class SignIn extends Component {
-  render() {
+  render() {    
+    
     const onFinish = (values) => {
       console.log("Success:", values);
+      signInWithEmailAndPassword(auth, values.email, values.password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -222,6 +235,7 @@ export default class SignIn extends Component {
                       htmlType="submit"
                       style={{ width: "100%" }}
                     >
+                    
                       SIGN IN
                     </Button>
                   </Form.Item>
