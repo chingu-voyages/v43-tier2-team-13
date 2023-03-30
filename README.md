@@ -30,7 +30,7 @@ Users should be able to:
 - Component Library: [Ant Design](https://ant.design/)
 - Charts: [Apex Charts](https://apexcharts.com/)
 - Crypto API: [CoinGecko](https://www.coingecko.com/en/api/documentation)
-- Template: [Chakra UI Muse template](https://www.admin-dashboards.com/free-react-dashboards-chakra-mui-ant-design/)
+- Template: [Chakra UI Muse template](https://www.creative-tim.com/product/muse-ant-design-dashboard)
 
 
 ## Project Setup

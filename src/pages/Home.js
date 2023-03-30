@@ -2,14 +2,18 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi';
+import { getQueryCoins, getQueryCoinsInfo } from '../api/api';
 import Watchlist from '../components/Watchlist';
 import Echart from '../components/chart/EChart';
 import LineChart from '../components/chart/LineChart';
 import { HomeCards } from '../components/home-cards/home-cards.component';
 import { CardLoader } from '../components/card-loader/card-loader.component';
-import { Card, Col, Row, Typography, Skeleton } from 'antd';
 import { sampleData } from '../utils/sample-data';
+import { Card, Col, Row, Typography, Skeleton, Input} from 'antd';
+import { StarOutlined, StarFilled } from '@ant-design/icons';
 import './Home.css';
+
+const { Search } = Input;
 
 const Home = () => {
   const { Title, Text } = Typography;
@@ -18,8 +22,12 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCoin, setSelectedCoin] = useState(null);
   const [addToWatchlist, setAddToWatchlist] = useState('');
+  const [query, setQuery] = useState('');
 
   const { handleAllCoins } = useApi();
+
+  const onSearch = (value) => getQueryCoins(value)
+    .then(res => setQuery(res.coins.map(coin => coin.id).join(", ")));
 
   useEffect(() => {
     // handleAllCoins().then((res) => {
@@ -28,6 +36,14 @@ const Home = () => {
       setIsLoading(false);
     // });
   }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    getQueryCoinsInfo(query).then((res) => {
+      setCoins(res);
+      setIsLoading(false);
+    })
+  }, [query])
 
   function handleClick(event) {
     setAddToWatchlist(event.target.id);
@@ -137,6 +153,10 @@ const Home = () => {
                 </div>
               ) : (
                 <>
+                  <div style={{paddingInline: '24px', marginBottom: '12px'}}>
+                    <Title level={4}>Search Coin</Title>
+                    <Search placeholder="Search..." onSearch={onSearch} enterButton />
+                  </div>
                   <div className="project-ant">
                     <div>
                       <Title level={5}>Coin List</Title>
