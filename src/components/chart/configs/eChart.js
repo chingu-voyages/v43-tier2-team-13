@@ -1,26 +1,22 @@
+import { last30DaysVolumes, last30DaysTimestamps } from '../EChart';
+
 const eChart = {
   series: [
     {
-      name: "Sales",
-      data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
-      color: "#fff",
+      name: 'Total Volumes',
+      data: last30DaysVolumes,
     },
   ],
 
   options: {
     chart: {
-      type: "bar",
-      width: "100%",
-      height: "auto",
-
-      toolbar: {
-        show: false,
-      },
+      id: 'basic-bar',
+      type: 'histogram',
     },
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "55%",
+        columnWidth: '55%',
         borderRadius: 5,
       },
     },
@@ -30,64 +26,38 @@ const eChart = {
     stroke: {
       show: true,
       width: 1,
-      colors: ["transparent"],
+      colors: ['transparent'],
     },
     grid: {
       show: true,
-      borderColor: "#ccc",
+      borderColor: '#ccc',
       strokeDashArray: 2,
     },
     xaxis: {
-      categories: [
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-      ],
+      categories: last30DaysTimestamps,
       labels: {
-        show: true,
-        align: "right",
-        minWidth: 0,
-        maxWidth: 160,
-        style: {
-          colors: [
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-          ],
-        },
+        formatter: (value, timestamp) =>
+          new Date(timestamp).toLocaleDateString(),
       },
     },
     yaxis: {
       labels: {
         show: true,
-        align: "right",
+        align: 'right',
         minWidth: 0,
         maxWidth: 160,
         style: {
           colors: [
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
-            "#fff",
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
           ],
         },
       },
@@ -96,7 +66,7 @@ const eChart = {
     tooltip: {
       y: {
         formatter: function (val) {
-          return "$ " + val + " thousands";
+          return '$ ' + val + ' thousands';
         },
       },
     },

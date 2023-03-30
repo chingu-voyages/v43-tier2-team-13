@@ -1,13 +1,62 @@
 import ReactApexChart from 'react-apexcharts';
 import { Typography } from 'antd';
-import eChart from './configs/eChart';
+import { MarketHistoryDataSample } from '../../utils/sample-data';
 
 function EChart() {
   const { Title } = Typography;
 
+  const timestamps = MarketHistoryDataSample.prices.map(
+    (priceData) => new Date(priceData[0])
+  );
+  const prices = MarketHistoryDataSample.prices.map(
+    (priceData) => priceData[1]
+  );
+
+  const eChart = {
+    options: {
+      chart: {
+        id: 'basic-bar',
+      },
+      xaxis: {
+        categories: timestamps,
+        labels: {
+          show: true,
+          formatter: (value, timestamp) => {
+            const date = new Date(timestamp);
+            return new Intl.DateTimeFormat('en-US', {
+              weekday: 'short',
+            }).format(date);
+          },
+          style: {
+            colors: '#ffffff',
+            fontWeight: 'bold',
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          formatter: (value) => Math.floor(value),
+          style: {
+            colors: '#ffffff',
+            fontWeight: 'bold',
+          },
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+    },
+    series: [
+      {
+        name: 'Prices',
+        data: prices,
+      },
+    ],
+  };
+
   return (
     <div id="chart">
-      <Title level={5}>Active Users</Title>
+      <Title level={5}>Price Chart</Title>
       <ReactApexChart
         className="bar-chart"
         options={eChart.options}

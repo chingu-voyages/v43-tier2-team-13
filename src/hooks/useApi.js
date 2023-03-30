@@ -1,10 +1,11 @@
-import { getAllCoins } from "../api/api"
+import { getAllCoins, getMarketHistoryData } from '../api/api';
 
 export const useApi = () => {
-    
-    const handleAllCoins = () => getAllCoins()
-    
-    return {
-        handleAllCoins,
-    }
-}
+  const handleAllCoins = () => getAllCoins();
+  const handleMarketHistoryData = () => getMarketHistoryData();
+
+  return {
+    handleAllCoins,
+    handleMarketHistoryData,
+  };
+};
