@@ -1,16 +1,32 @@
 import ReactApexChart from 'react-apexcharts';
 import { Typography } from 'antd';
 import { MarketHistoryDataSample } from '../../utils/sample-data';
+import { useApi } from '../../hooks/useApi';
+import { useEffect, useState } from 'react';
 
-function EChart() {
+function EChart({ coinId }) {
   const { Title } = Typography;
+  const { handleMarketHistoryData } = useApi(coinId);
+  const [chartData, setChartData] = useState(MarketHistoryDataSample);
 
-  const timestamps = MarketHistoryDataSample.market_caps.map(
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await handleMarketHistoryData(coinId);
+        if (data) {
+          setChartData(data);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, [handleMarketHistoryData]);
+
+  const timestamps = chartData.market_caps.map(
     (marketData) => new Date(marketData[0])
   );
-  const prices = MarketHistoryDataSample.market_caps.map(
-    (marketData) => marketData[1]
-  );
+  const prices = chartData.market_caps.map((marketData) => marketData[1]);
 
   const eChart = {
     options: {

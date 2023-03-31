@@ -1,5 +1,5 @@
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
 import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi';
 import { getQueryCoins, getQueryCoinsInfo } from '../api/api';
@@ -9,7 +9,7 @@ import LineChart from '../components/chart/LineChart';
 import { HomeCards } from '../components/home-cards/home-cards.component';
 import { CardLoader } from '../components/card-loader/card-loader.component';
 import { sampleData } from '../utils/sample-data';
-import { Card, Col, Row, Typography, Skeleton, Input} from 'antd';
+import { Card, Col, Row, Typography, Skeleton, Input } from 'antd';
 import { StarOutlined, StarFilled } from '@ant-design/icons';
 import './Home.css';
 
@@ -20,21 +20,23 @@ const Home = () => {
 
   const [coins, setCoins] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedCoin, setSelectedCoin] = useState(null);
+  const [selectedCoin, setSelectedCoin] = useState(sampleData);
   const [addToWatchlist, setAddToWatchlist] = useState('');
   const [query, setQuery] = useState('');
 
   const { handleAllCoins } = useApi();
 
-  const onSearch = (value) => getQueryCoins(value)
-    .then(res => setQuery(res.coins.map(coin => coin.id).join(", ")));
+  const onSearch = (value) =>
+    getQueryCoins(value).then((res) =>
+      setQuery(res.coins.map((coin) => coin.id).join(', '))
+    );
 
   useEffect(() => {
-    // handleAllCoins().then((res) => {
-      setCoins(sampleData);
-      setSelectedCoin(sampleData[0]);
+    handleAllCoins().then((res) => {
+      setCoins(res);
+      setSelectedCoin(res[0]);
       setIsLoading(false);
-    // });
+    });
   }, []);
 
   useEffect(() => {
@@ -42,8 +44,8 @@ const Home = () => {
     getQueryCoinsInfo(query).then((res) => {
       setCoins(res);
       setIsLoading(false);
-    })
-  }, [query])
+    });
+  }, [query]);
 
   function handleClick(event) {
     setAddToWatchlist(event.target.id);
@@ -108,7 +110,7 @@ const Home = () => {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
-        console.log(uid, 'logged in')
+        console.log(uid, 'logged in');
         // ...
       } else {
         // User is signed out
@@ -116,7 +118,7 @@ const Home = () => {
       }
     });
   }, []);
-  
+
   return (
     <>
       <div className="layout-content">
@@ -134,7 +136,7 @@ const Home = () => {
         <Row gutter={[24, 0]}>
           <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24">
             <Card bordered={false} className="criclebox h-full">
-              <Echart />
+              <Echart coinId={selectedCoin[0].id} />
             </Card>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={14} className="mb-24">
@@ -153,9 +155,13 @@ const Home = () => {
                 </div>
               ) : (
                 <>
-                  <div style={{paddingInline: '24px', marginBottom: '12px'}}>
+                  <div style={{ paddingInline: '24px', marginBottom: '12px' }}>
                     <Title level={4}>Search Coin</Title>
-                    <Search placeholder="Search..." onSearch={onSearch} enterButton />
+                    <Search
+                      placeholder="Search..."
+                      onSearch={onSearch}
+                      enterButton
+                    />
                   </div>
                   <div className="project-ant">
                     <div>

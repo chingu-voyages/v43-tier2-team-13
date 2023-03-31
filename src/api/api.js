@@ -27,13 +27,16 @@ export const getAllCoins = async () => {
   }
 };
 
-export const getMarketHistoryData = async () => {
+export const getMarketHistoryData = async (coinId) => {
   try {
-    const response = await fetch(`${MARKET_HISTORY_URL}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=14&interval=daily`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
     return await checkResponse(response);
   } catch (error) {
     console.error(error);

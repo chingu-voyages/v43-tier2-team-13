@@ -1,8 +1,8 @@
 import { getAllCoins, getMarketHistoryData } from '../api/api';
 
-export const useApi = () => {
+export const useApi = (coinId) => {
   const handleAllCoins = () => getAllCoins();
-  const handleMarketHistoryData = () => getMarketHistoryData();
+  const handleMarketHistoryData = (coinId) => getMarketHistoryData(coinId);
 
   return {
     handleAllCoins,
