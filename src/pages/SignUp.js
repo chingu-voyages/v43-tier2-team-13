@@ -9,6 +9,8 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 import React, { Component } from "react";
 import {
   Layout,
@@ -118,6 +120,18 @@ export default class SignUp extends Component {
   render() {
     const onFinish = (values) => {
       console.log("Success:", values);
+      createUserWithEmailAndPassword(auth, values.email, values.password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        // ..
+      });
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -212,7 +226,7 @@ export default class SignUp extends Component {
                     { required: true, message: "Please input your email!" },
                   ]}
                 >
-                  <Input placeholder="email" />
+                  <Input placeholder="Email" />
                 </Form.Item>
                 <Form.Item
                   name="password"
@@ -220,7 +234,7 @@ export default class SignUp extends Component {
                     { required: true, message: "Please input your password!" },
                   ]}
                 >
-                  <Input placeholder="Passwoed" />
+                  <Input placeholder="Password" />
                 </Form.Item>
 
                 <Form.Item name="remember" valuePropName="checked">

@@ -1,3 +1,5 @@
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi';
 import { getQueryCoins, getQueryCoinsInfo } from '../api/api';
@@ -33,11 +35,11 @@ const Home = () => {
   }
 
   useEffect(() => {
-    handleAllCoins().then((res) => {
-      setCoins(res);
-      setSelectedCoin(res[0]);
+    // handleAllCoins().then((res) => {
+      setCoins(sampleData);
+      setSelectedCoin(sampleData[0]);
       setIsLoading(false);
-    });
+    // });
   }, []);
 
   useEffect(() => {
@@ -104,6 +106,21 @@ const Home = () => {
     },
   ];
 
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        console.log(uid, 'logged in')
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
+  }, []);
+  
   return (
     <>
       <div className="layout-content">
