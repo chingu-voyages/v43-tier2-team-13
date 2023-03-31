@@ -17,6 +17,7 @@ function EChart() {
       chart: {
         id: 'basic-bar',
       },
+      colors: ['#0197f6'],
       xaxis: {
         categories: timestamps,
         labels: {
@@ -35,7 +36,9 @@ function EChart() {
       },
       yaxis: {
         labels: {
-          formatter: (value) => Math.floor(value),
+          formatter: (value) => {
+            return value >= 1e9 ? Math.floor(value / 1e9) + 'B' : value;
+          },
           style: {
             colors: '#ffffff',
             fontWeight: 'bold',
