@@ -31,14 +31,14 @@ const Home = () => {
   const onSearch = (value) => getQueryCoins(value)
     .then(res => setQuery(res.coins.map(coin => coin.id).join(", ")));
 
+    //uncomment to use saved sampleData
   useEffect(() => {
-    // handleAllCoins().then((res) => {
       setCoins(sampleData);
       setSelectedCoin(sampleData[0]);
       setIsLoading(false);
-    // });
   }, []);
 
+  // uncomment to use live data
   // useEffect(() => {
   //   setIsLoading(true);
   //   getQueryCoinsInfo(query).then((res) => {
@@ -116,6 +116,8 @@ const Home = () => {
         setUserUID(uid)
         // ...
       } else {
+        setLoggedIn(false)
+        setUserUID('')
         // User is signed out
         // ...
       }
