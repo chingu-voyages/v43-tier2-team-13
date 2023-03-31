@@ -6,9 +6,9 @@ import Echart from '../components/chart/EChart';
 import LineChart from '../components/chart/LineChart';
 import { HomeCards } from '../components/home-cards/home-cards.component';
 import { CardLoader } from '../components/card-loader/card-loader.component';
-import { sampleData } from '../utils/sample-data';
+// import { sampleData } from '../utils/sample-data';
 import { Card, Col, Row, Typography, Skeleton, Input} from 'antd';
-import { StarOutlined, StarFilled } from '@ant-design/icons';
+// import { StarOutlined, StarFilled } from '@ant-design/icons';
 import './Home.css';
 
 const { Search } = Input;
@@ -24,8 +24,13 @@ const Home = () => {
 
   const { handleAllCoins } = useApi();
 
-  const onSearch = (value) => getQueryCoins(value)
-    .then(res => setQuery(res.coins.map(coin => coin.id).join(", ")));
+  const onSearch = (value) => {
+    setIsLoading(true);
+    getQueryCoins(value)
+    .then(res => 
+      setQuery(res.coins.map(coin => coin.id).join(", "))
+    );
+  }
 
   useEffect(() => {
     handleAllCoins().then((res) => {
@@ -36,7 +41,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    setIsLoading(true);
     getQueryCoinsInfo(query).then((res) => {
       setCoins(res);
       setIsLoading(false);

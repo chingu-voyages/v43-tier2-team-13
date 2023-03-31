@@ -29,9 +29,6 @@ import {
 
 import {
   SearchOutlined,
-  StarOutlined,
-  TwitterOutlined,
-  FacebookFilled,
 } from "@ant-design/icons";
 
 import { NavLink, Link } from "react-router-dom";
