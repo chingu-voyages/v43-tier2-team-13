@@ -10,6 +10,8 @@ CryptoWorld is a one stop solution for all your crypto needs. Track and manage y
   - [Screenshot](#screenshot)
   - [Built with](#built-with)
 - [Project setup](#project-setup)
+  - [Prerequisite](#prerequisite)
+  - [Local Setup](#local-setup)
 
 ## Overview
 
@@ -34,6 +36,12 @@ Users should be able to:
 
 
 ## Project Setup
+
+### Prerequisite
+
+Before starting with the project make sure you have [Git](https://git-scm.com/) and [Node](https://nodejs.org) installed in your system. If not follow the links and install the packages.
+
+### Local Setup
 
 To run the project locally first clone the project to your local machine:
 

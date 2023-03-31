@@ -2,7 +2,6 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi';
-import { getQueryCoins, getQueryCoinsInfo } from '../api/api';
 import Watchlist from '../components/Watchlist';
 import Echart from '../components/chart/EChart';
 import LineChart from '../components/chart/LineChart';
@@ -10,7 +9,10 @@ import { HomeCards } from '../components/home-cards/home-cards.component';
 import { CardLoader } from '../components/card-loader/card-loader.component';
 import { sampleData } from '../utils/sample-data';
 import { Card, Col, Row, Typography, Skeleton, Input} from 'antd';
-import { StarOutlined, StarFilled } from '@ant-design/icons';
+// import { StarOutlined, StarFilled } from '@ant-design/icons';
+import {
+  SearchOutlined,
+} from "@ant-design/icons";
 import './Home.css';
 
 const { Search } = Input;
@@ -18,35 +20,58 @@ const { Search } = Input;
 const Home = () => {
   const { Title, Text } = Typography;
 
-  const [coins, setCoins] = useState();
+  const [coins, setCoins] = useState([]);
+  const [filteredCoins, setFilteredCoins] = useState([])
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCoin, setSelectedCoin] = useState(null);
   const [addToWatchlist, setAddToWatchlist] = useState('');
-  const [query, setQuery] = useState('');
 
   const { handleAllCoins } = useApi();
 
-  const onSearch = (value) => getQueryCoins(value)
-    .then(res => setQuery(res.coins.map(coin => coin.id).join(", ")));
-
+  // ----------------- UseEffects -----------------
+  // Use API data if request is resolved and use sampledata if it is rejected
   useEffect(() => {
-    // handleAllCoins().then((res) => {
+    handleAllCoins().then((res) => {
+      setCoins(res);
+      setFilteredCoins(res);
+      setSelectedCoin(res[0]);
+      setIsLoading(false);
+    }, () => {
       setCoins(sampleData);
+      setFilteredCoins(sampleData);
       setSelectedCoin(sampleData[0]);
       setIsLoading(false);
-    // });
+    });
+
   }, []);
 
   useEffect(() => {
-    setIsLoading(true);
-    getQueryCoinsInfo(query).then((res) => {
-      setCoins(res);
-      setIsLoading(false);
-    })
-  }, [query])
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        console.log(uid, 'logged in')
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
+  }, []);
 
+  //------------- Event Handlers -----------------
   function handleClick(event) {
     setAddToWatchlist(event.target.id);
+  }
+
+  // Filter through coin list and return new list
+  const onSearch = (e) => {
+    const newCoinsList = coins.filter((element) => 
+      (element.id.replaceAll('-', ' ').includes(e.target.value.toLowerCase()) 
+      || element.symbol.includes(e.target.value.toLowerCase()))
+    );
+    setFilteredCoins(newCoinsList);
   }
 
   const cardsData = (selectedCoin) => [
@@ -101,21 +126,6 @@ const Home = () => {
       logo: '🏛️',
     },
   ];
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid;
-        console.log(uid, 'logged in')
-        // ...
-      } else {
-        // User is signed out
-        // ...
-      }
-    });
-  }, []);
   
   return (
     <>
@@ -155,7 +165,12 @@ const Home = () => {
                 <>
                   <div style={{paddingInline: '24px', marginBottom: '12px'}}>
                     <Title level={4}>Search Coin</Title>
-                    <Search placeholder="Search..." onSearch={onSearch} enterButton />
+                    <Input
+                      className="header-search"
+                      placeholder="Search..."
+                      prefix={<SearchOutlined />}
+                      onChange={onSearch}
+                    />
                   </div>
                   <div className="project-ant">
                     <div>
@@ -173,7 +188,7 @@ const Home = () => {
                       <thead>
                         <tr>
                           <th></th>
-                          <th></th>
+                          <th>Name</th>
                           <th>Price</th>
                           <th>Market Cap</th>
                           <th>High 24h</th>
@@ -183,8 +198,8 @@ const Home = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {coins.length > 0 ? (
-                          coins.map((coin) => (
+                        {filteredCoins.length > 0 ? (
+                          filteredCoins.map((coin) => (
                             <tr
                               key={coin.id}
                               onClick={() => setSelectedCoin(coin)}
@@ -272,7 +287,11 @@ const Home = () => {
                             </tr>
                           ))
                         ) : (
-                          <Text>Data not available</Text>
+                          <tr>
+                            <td colSpan={8}>
+                              <Text style={{display: 'block', textAlign: 'center', fontSize: '1.25rem'}}>Data not available!</Text>
+                            </td>
+                          </tr>
                         )}
                       </tbody>
                     </table>
