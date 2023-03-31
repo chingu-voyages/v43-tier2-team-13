@@ -282,9 +282,7 @@ const Home = () => {
             </Card>
           </Col>
         </Row>
-        {addToWatchlist ? (
-          <Watchlist coins={coins} addToWatchlist={addToWatchlist} />
-        ) : null}
+        <Watchlist coins={coins} addToWatchlist={addToWatchlist} />
       </div>
     </>
   );
