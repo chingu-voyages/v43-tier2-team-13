@@ -23,6 +23,8 @@ const Home = () => {
   const [selectedCoin, setSelectedCoin] = useState(null);
   const [addToWatchlist, setAddToWatchlist] = useState('');
   const [query, setQuery] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [userUID, setUserUID] = useState('')
 
   const { handleAllCoins } = useApi();
 
@@ -37,13 +39,14 @@ const Home = () => {
     // });
   }, []);
 
-  useEffect(() => {
-    setIsLoading(true);
-    getQueryCoinsInfo(query).then((res) => {
-      setCoins(res);
-      setIsLoading(false);
-    })
-  }, [query])
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   getQueryCoinsInfo(query).then((res) => {
+  //     console.log(res)
+  //     setCoins(res);
+  //     setIsLoading(false);
+  //   })
+  // }, [query])
 
   function handleClick(event) {
     setAddToWatchlist(event.target.id);
@@ -109,6 +112,8 @@ const Home = () => {
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
         console.log(uid, 'logged in')
+        setLoggedIn(true)
+        setUserUID(uid)
         // ...
       } else {
         // User is signed out
@@ -282,7 +287,7 @@ const Home = () => {
             </Card>
           </Col>
         </Row>
-        <Watchlist coins={coins} addToWatchlist={addToWatchlist} />
+        <Watchlist allCoins={coins} addToWatchlist={addToWatchlist} loggedIn={loggedIn} userUID={userUID}/>
       </div>
     </>
   );
