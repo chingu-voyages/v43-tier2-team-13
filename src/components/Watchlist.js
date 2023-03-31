@@ -2,11 +2,10 @@ import React, {useEffect, useState} from 'react'
 import WatchlistCoin from '../watchlistClassConstructor';
 import { ref, child, update, onValue, push, get, query, orderByValue, equalTo, remove } from "firebase/database";
 import { cryptoWorldDB, db } from '../firebaseConfig';
-import { sampleData } from '../utils/sample-data';
 import { Table, Row, Col, Space } from "antd";
 
 export default function Watchlist(props) {
-    const {addToWatchlist, loggedIn, userUID}  = props
+    const {addToWatchlist, allCoins, loggedIn, userUID}  = props
     const [coinToAdd, setCoinToAdd] = useState('')
     const [watchlistCoinIDs, setWatchlistCoinIDs] = useState([])
     const [watchlistCoins, setWatchlistCoins] = useState([])
@@ -49,7 +48,7 @@ export default function Watchlist(props) {
 
     function renderWatchListCoins(dbdata){
             setWatchlistCoins(dbdata.map(coinID => {
-                const coinData = sampleData.find(coin => coinID === coin.id)
+                const coinData = allCoins.find(coin => coinID === coin.id)
                 const newCoin = new WatchlistCoin(coinData) 
                 return newCoin
             }))
