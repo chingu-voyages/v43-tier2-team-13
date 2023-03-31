@@ -5,11 +5,11 @@ import { MarketHistoryDataSample } from '../../utils/sample-data';
 function EChart() {
   const { Title } = Typography;
 
-  const timestamps = MarketHistoryDataSample.prices.map(
-    (priceData) => new Date(priceData[0])
+  const timestamps = MarketHistoryDataSample.market_caps.map(
+    (marketData) => new Date(marketData[0])
   );
-  const prices = MarketHistoryDataSample.prices.map(
-    (priceData) => priceData[1]
+  const prices = MarketHistoryDataSample.market_caps.map(
+    (marketData) => marketData[1]
   );
 
   const eChart = {
@@ -56,7 +56,7 @@ function EChart() {
 
   return (
     <div id="chart">
-      <Title level={5}>Price Chart</Title>
+      <Title level={5}>Market Cap Chart</Title>
       <ReactApexChart
         className="bar-chart"
         options={eChart.options}
