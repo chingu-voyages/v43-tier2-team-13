@@ -22,8 +22,11 @@ function EChart() {
         categories: timestamps,
         labels: {
           show: true,
-          formatter: (value, timestamp) => {
-            const date = new Date(timestamp);
+          formatter: (value) => {
+            if (!value) {
+              return value;
+            }
+            const date = new Date(value);
             return new Intl.DateTimeFormat('en-US', {
               weekday: 'short',
             }).format(date);
