@@ -4,6 +4,7 @@ import WatchlistCoin from '../watchlistClassConstructor';
 import { Table, Row, Col, Space } from "antd";
 
 export default function Watchlist(props) {
+    
     const [coinToAdd, setCoinToAdd] = useState(props.coinToAdd)
     const [watchlistCoins, setWatchlistCoins] = useState([])
     
@@ -81,7 +82,7 @@ export default function Watchlist(props) {
             {watchlistCoins.length > 0 
                 ?   <Row gutter={[24, 0]}>
                         <Col xs={24} sm={24} md={24} lg={24} xl={24} className="mb-24">
-                            <Table className="watchlist-table" columns={columns} dataSource={watchlistCoins} />
+                            <Table className="watchlist-table" columns={columns} dataSource={watchlistCoins} title={() => 'Watchlist'}/>
                         </Col>
                     </Row>
                 :   null}
