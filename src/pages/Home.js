@@ -25,7 +25,9 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCoin, setSelectedCoin] = useState(null);
   const [addToWatchlist, setAddToWatchlist] = useState('');
-
+  const [query, setQuery] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [userUID, setUserUID] = useState('')
   const { handleAllCoins } = useApi();
 
   // ----------------- UseEffects -----------------
@@ -41,22 +43,6 @@ const Home = () => {
       setFilteredCoins(sampleData);
       setSelectedCoin(sampleData[0]);
       setIsLoading(false);
-    });
-
-  }, []);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid;
-        console.log(uid, 'logged in')
-        // ...
-      } else {
-        // User is signed out
-        // ...
-      }
     });
   }, []);
 
@@ -126,6 +112,26 @@ const Home = () => {
       logo: '🏛️',
     },
   ];
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        console.log(uid, 'logged in')
+        setLoggedIn(true)
+        setUserUID(uid)
+        // ...
+      } else {
+        setLoggedIn(false)
+        setUserUID('')
+        // User is signed out
+        // ...
+      }
+    });
+  }, []);
+
   
   return (
     <>
@@ -301,9 +307,7 @@ const Home = () => {
             </Card>
           </Col>
         </Row>
-        {addToWatchlist ? (
-          <Watchlist coins={coins} addToWatchlist={addToWatchlist} />
-        ) : null}
+        <Watchlist allCoins={coins} addToWatchlist={addToWatchlist} loggedIn={loggedIn} userUID={userUID}/>
       </div>
     </>
   );

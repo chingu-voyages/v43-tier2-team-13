@@ -1,35 +1,81 @@
 import React, {useEffect, useState} from 'react'
 import WatchlistCoin from '../watchlistClassConstructor';
-
+import { ref, child, update, onValue, push, get, query, orderByValue, equalTo, remove } from "firebase/database";
+import { cryptoWorldDB, db } from '../firebaseConfig';
 import { Table, Row, Col, Space } from "antd";
 
 export default function Watchlist(props) {
-    const [coinToAdd, setCoinToAdd] = useState(props.coinToAdd)
+    const {addToWatchlist, allCoins, loggedIn, userUID}  = props
+    const [coinToAdd, setCoinToAdd] = useState('')
+    const [watchlistCoinIDs, setWatchlistCoinIDs] = useState([])
     const [watchlistCoins, setWatchlistCoins] = useState([])
     
     useEffect(() => {
-        setCoinToAdd(props.addToWatchlist)
-    }, [props.addToWatchlist])
+        if(addToWatchlist.length > 1){
+            setCoinToAdd(addToWatchlist)
+        }
+    }, [addToWatchlist]);
 
     useEffect(() => {
-        coinToAdd && addCoinToWatchlist(coinToAdd)
+        if(coinToAdd !== ''){
+            addCoinToDBWatchlist(coinToAdd)
+        }
     }, [coinToAdd])
 
-    function addCoinToWatchlist(coinToAdd){
-        console.log(coinToAdd)
-        if(watchlistCoins.some(coin => coin.id === coinToAdd)){
-            console.log("already watchlisted")
-            // switch between filled/unfilled star
+
+    function addCoinToDBWatchlist(coinID){        
+        if (watchlistCoinIDs.some((coin) => coin === coinID)) {
+            console.log('already watchlisted');
         } else {
-              const coinData = props.coins.find(coin => coinToAdd === coin.id)
-              const newCoin = new WatchlistCoin(coinData)
-              setWatchlistCoins(prevCoins => ([...prevCoins, newCoin]))
+            const newPostKey = push(child(ref(db), 'watchlist')).key;
+            const updates = {};
+            updates[`/sharedPublicWatchlist/` + newPostKey] = coinID;
+            update(cryptoWorldDB, updates);
         }
     }
 
+    useEffect(() => {
+        const dbRef = ref(db, `/cryptoWorld/sharedPublicWatchlist/`)
+        onValue(dbRef, (snapshot) => {
+            snapshot.exists() ? setWatchlistCoinIDs(Object.values(snapshot.val())) : setWatchlistCoinIDs([])
+        })
+      }, []);
+
+
+    useEffect(() => {
+        renderWatchListCoins(watchlistCoinIDs)
+    }, [watchlistCoinIDs])
+
+    function renderWatchListCoins(dbdata){
+            setWatchlistCoins(dbdata.map(coinID => {
+                const coinData = allCoins.find(coin => coinID === coin.id)
+                const newCoin = new WatchlistCoin(coinData) 
+                return newCoin
+            }))
+    }
+
+    const findItemKeyAndRemove = (id) => {
+        const itemsRef = ref(db, `/cryptoWorld/sharedPublicWatchlist/`);
+        const queryRef = query(itemsRef, orderByValue(), equalTo(id));
+        get(queryRef)
+          .then((snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+              const itemKey = childSnapshot.key;
+              const itemRef = ref(db, `/cryptoWorld/sharedPublicWatchlist/${itemKey}`);
+              remove(itemRef)
+                .then(() => {
+                  console.log("Item removed successfully.", itemRef);
+                })
+            });
+          })
+          .catch((error) => {
+            console.log("Error finding item: ", error);
+          });
+      }
+
     function removeFromWatchlist(e){
         const id = e.target.id
-        setWatchlistCoins(prevCoins => prevCoins.filter(coin => coin.id !== id))
+        findItemKeyAndRemove(id)
     }
 
     const columns = [
@@ -75,14 +121,15 @@ export default function Watchlist(props) {
         },
     ];
 
-
     return (
         <div> 
-                <Row gutter={[24, 0]}>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={24} className="mb-24">
-                        <Table className="watchlist-table" columns={columns} dataSource={watchlistCoins} />
-                    </Col>
-                </Row>
+            {watchlistCoins.length > 0 
+                ?   <Row gutter={[24, 0]}>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24} className="mb-24">
+                            <Table className="watchlist-table" columns={columns} dataSource={watchlistCoins} title={() => 'Watchlist'}/>
+                        </Col>
+                    </Row>
+                :   null}
         </div>
     )
 }
