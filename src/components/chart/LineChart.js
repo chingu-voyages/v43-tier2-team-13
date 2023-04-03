@@ -1,37 +1,62 @@
-/*!
-  =========================================================
-  * Muse Ant Design Dashboard - v1.0.0
-  =========================================================
-  * Product Page: https://www.creative-tim.com/product/muse-ant-design-dashboard
-  * Copyright 2021 Creative Tim (https://www.creative-tim.com)
-  * Licensed under MIT (https://github.com/creativetimofficial/muse-ant-design-dashboard/blob/main/LICENSE.md)
-  * Coded by Creative Tim
-  =========================================================
-  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-import ReactApexChart from "react-apexcharts";
-import { Typography } from "antd";
-import { MinusOutlined } from "@ant-design/icons";
-import lineChart from "./configs/lineChart";
+import ReactApexChart from 'react-apexcharts';
+import { Typography } from 'antd';
+import { MarketHistoryDataSample } from '../../utils/sample-data';
 
 function LineChart() {
-  const { Title, Paragraph } = Typography;
+  const { Title } = Typography;
+
+  const dataPoints = MarketHistoryDataSample.prices.map((priceData) => ({
+    x: new Date(priceData[0]),
+    y: priceData[1],
+  }));
+
+  const lineChart = {
+    options: {
+      colors: ['#41e2ba'],
+      xaxis: {
+        type: 'datetime',
+        labels: {
+          show: true,
+          formatter: (value, timestamp) => {
+            const date = new Date(timestamp);
+            return new Intl.DateTimeFormat('en-GB', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            }).format(date);
+          },
+          style: {
+            colors: '#000',
+            fontWeight: 'bold',
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          formatter: (value) => Math.floor(value),
+          style: {
+            colors: '#000',
+            fontWeight: 'bold',
+          },
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+    },
+    series: [
+      {
+        name: 'Prices',
+        data: dataPoints,
+      },
+    ],
+  };
 
   return (
     <>
       <div className="linechart">
         <div>
-          <Title level={5}>Active Users</Title>
-          <Paragraph className="lastweek">
-            than last week <span className="bnb2">+30%</span>
-          </Paragraph>
-        </div>
-        <div className="sales">
-          <ul>
-            <li>{<MinusOutlined />} Traffic</li>
-            <li>{<MinusOutlined />} Sales</li>
-          </ul>
+          <Title level={5}>Price Chart</Title>
         </div>
       </div>
 
@@ -41,7 +66,7 @@ function LineChart() {
         series={lineChart.series}
         type="area"
         height={350}
-        width={"100%"}
+        width={'100%'}
       />
     </>
   );

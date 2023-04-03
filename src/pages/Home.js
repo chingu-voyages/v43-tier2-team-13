@@ -1,5 +1,5 @@
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
 import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi';
 import Watchlist from '../components/Watchlist';
@@ -8,42 +8,40 @@ import LineChart from '../components/chart/LineChart';
 import { HomeCards } from '../components/home-cards/home-cards.component';
 import { CardLoader } from '../components/card-loader/card-loader.component';
 import { sampleData } from '../utils/sample-data';
-import { Card, Col, Row, Typography, Skeleton, Input} from 'antd';
+import { Card, Col, Row, Typography, Skeleton, Input } from 'antd';
 // import { StarOutlined, StarFilled } from '@ant-design/icons';
-import {
-  SearchOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined } from '@ant-design/icons';
 import './Home.css';
-
-const { Search } = Input;
 
 const Home = () => {
   const { Title, Text } = Typography;
 
   const [coins, setCoins] = useState([]);
-  const [filteredCoins, setFilteredCoins] = useState([])
+  const [filteredCoins, setFilteredCoins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedCoin, setSelectedCoin] = useState(null);
+  const [selectedCoin, setSelectedCoin] = useState(sampleData);
   const [addToWatchlist, setAddToWatchlist] = useState('');
-  const [query, setQuery] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [userUID, setUserUID] = useState('')
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userUID, setUserUID] = useState('');
   const { handleAllCoins } = useApi();
 
   // ----------------- UseEffects -----------------
   // Use API data if request is resolved and use sampledata if it is rejected
   useEffect(() => {
-    handleAllCoins().then((res) => {
-      setCoins(res);
-      setFilteredCoins(res);
-      setSelectedCoin(res[0]);
-      setIsLoading(false);
-    }, () => {
-      setCoins(sampleData);
-      setFilteredCoins(sampleData);
-      setSelectedCoin(sampleData[0]);
-      setIsLoading(false);
-    });
+    handleAllCoins().then(
+      (res) => {
+        setCoins(res);
+        setFilteredCoins(res);
+        setSelectedCoin(res[0]);
+        setIsLoading(false);
+      },
+      () => {
+        setCoins(sampleData);
+        setFilteredCoins(sampleData);
+        setSelectedCoin(sampleData[0]);
+        setIsLoading(false);
+      }
+    );
   }, []);
 
   //------------- Event Handlers -----------------
@@ -53,12 +51,15 @@ const Home = () => {
 
   // Filter through coin list and return new list
   const onSearch = (e) => {
-    const newCoinsList = coins.filter((element) => 
-      (element.id.replaceAll('-', ' ').includes(e.target.value.toLowerCase()) 
-      || element.symbol.includes(e.target.value.toLowerCase()))
+    const newCoinsList = coins.filter(
+      (element) =>
+        element.id
+          .replaceAll('-', ' ')
+          .includes(e.target.value.toLowerCase()) ||
+        element.symbol.includes(e.target.value.toLowerCase())
     );
     setFilteredCoins(newCoinsList);
-  }
+  };
 
   const cardsData = (selectedCoin) => [
     {
@@ -119,20 +120,19 @@ const Home = () => {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
-        console.log(uid, 'logged in')
-        setLoggedIn(true)
-        setUserUID(uid)
+        console.log(uid, 'logged in');
+        setLoggedIn(true);
+        setUserUID(uid);
         // ...
       } else {
-        setLoggedIn(false)
-        setUserUID('')
+        setLoggedIn(false);
+        setUserUID('');
         // User is signed out
         // ...
       }
     });
   }, []);
 
-  
   return (
     <>
       <div className="layout-content">
@@ -150,7 +150,7 @@ const Home = () => {
         <Row gutter={[24, 0]}>
           <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24">
             <Card bordered={false} className="criclebox h-full">
-              <Echart />
+              <Echart coinId={selectedCoin[0].id} />
             </Card>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={14} className="mb-24">
@@ -169,7 +169,7 @@ const Home = () => {
                 </div>
               ) : (
                 <>
-                  <div style={{paddingInline: '24px', marginBottom: '12px'}}>
+                  <div style={{ paddingInline: '24px', marginBottom: '12px' }}>
                     <Title level={4}>Search Coin</Title>
                     <Input
                       className="header-search"
@@ -295,7 +295,15 @@ const Home = () => {
                         ) : (
                           <tr>
                             <td colSpan={8}>
-                              <Text style={{display: 'block', textAlign: 'center', fontSize: '1.25rem'}}>Data not available!</Text>
+                              <Text
+                                style={{
+                                  display: 'block',
+                                  textAlign: 'center',
+                                  fontSize: '1.25rem',
+                                }}
+                              >
+                                Data not available!
+                              </Text>
                             </td>
                           </tr>
                         )}
@@ -307,7 +315,12 @@ const Home = () => {
             </Card>
           </Col>
         </Row>
-        <Watchlist allCoins={coins} addToWatchlist={addToWatchlist} loggedIn={loggedIn} userUID={userUID}/>
+        <Watchlist
+          allCoins={coins}
+          addToWatchlist={addToWatchlist}
+          loggedIn={loggedIn}
+          userUID={userUID}
+        />
       </div>
     </>
   );

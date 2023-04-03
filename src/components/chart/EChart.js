@@ -1,73 +1,92 @@
-/*!
-  =========================================================
-  * Muse Ant Design Dashboard - v1.0.0
-  =========================================================
-  * Product Page: https://www.creative-tim.com/product/muse-ant-design-dashboard
-  * Copyright 2021 Creative Tim (https://www.creative-tim.com)
-  * Licensed under MIT (https://github.com/creativetimofficial/muse-ant-design-dashboard/blob/main/LICENSE.md)
-  * Coded by Creative Tim
-  =========================================================
-  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+import ReactApexChart from 'react-apexcharts';
+import { Typography } from 'antd';
+import { MarketHistoryDataSample } from '../../utils/sample-data';
+import { useApi } from '../../hooks/useApi';
+import { useEffect, useState } from 'react';
 
-import ReactApexChart from "react-apexcharts";
-import { Row, Col, Typography } from "antd";
-import eChart from "./configs/eChart";
+function EChart({ coinId }) {
+  const { Title } = Typography;
+  const { handleMarketHistoryData } = useApi(coinId);
+  const [chartData, setChartData] = useState(MarketHistoryDataSample);
 
-function EChart() {
-  const { Title, Paragraph } = Typography;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await handleMarketHistoryData(coinId);
+        if (data) {
+          setChartData(data);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, [handleMarketHistoryData]);
 
-  const items = [
-    {
-      Title: "3,6K",
-      user: "Users",
+  const timestamps = chartData.market_caps.map(
+    (marketData) => new Date(marketData[0])
+  );
+  const prices = chartData.market_caps.map((marketData) => marketData[1]);
+
+  const eChart = {
+    options: {
+      chart: {
+        id: 'basic-bar',
+      },
+      colors: ['#0197f6'],
+      xaxis: {
+        categories: timestamps,
+        labels: {
+          show: true,
+          formatter: (value) => {
+            if (!value) {
+              return value;
+            }
+            const date = new Date(value);
+            return new Intl.DateTimeFormat('en-US', {
+              weekday: 'short',
+            }).format(date);
+          },
+          style: {
+            colors: '#ffffff',
+            fontWeight: 'bold',
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          formatter: (value) => {
+            return value >= 1e9 ? Math.floor(value / 1e9) + 'B' : value;
+          },
+          style: {
+            colors: '#ffffff',
+            fontWeight: 'bold',
+          },
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
     },
-    {
-      Title: "2m",
-      user: "Clicks",
-    },
-    {
-      Title: "$772",
-      user: "Sales",
-    },
-    {
-      Title: "82",
-      user: "Items",
-    },
-  ];
+    series: [
+      {
+        name: 'Prices',
+        data: prices,
+      },
+    ],
+  };
 
   return (
-    <>
-      <div id="chart">
-        <ReactApexChart
-          className="bar-chart"
-          options={eChart.options}
-          series={eChart.series}
-          type="bar"
-          height={220}
-        />
-      </div>
-      <div className="chart-vistior">
-        <Title level={5}>Active Users</Title>
-        <Paragraph className="lastweek">
-          than last week <span className="bnb2">+30%</span>
-        </Paragraph>
-        <Paragraph className="lastweek">
-          We have created multiple options for you to put together and customise
-          into pixel perfect pages.
-        </Paragraph>
-        <Row gutter>
-          {items.map((v, index) => (
-            <Col xs={6} xl={6} sm={6} md={6} key={index}>
-              <div className="chart-visitor-count">
-                <Title level={4}>{v.Title}</Title>
-                <span>{v.user}</span>
-              </div>
-            </Col>
-          ))}
-        </Row>
-      </div>
-    </>
+    <div id="chart">
+      <Title level={5}>Market Cap Chart</Title>
+      <ReactApexChart
+        className="bar-chart"
+        options={eChart.options}
+        series={eChart.series}
+        type="bar"
+        height={370}
+      />
+    </div>
   );
 }
 
