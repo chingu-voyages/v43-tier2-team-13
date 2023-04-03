@@ -1,11 +1,28 @@
 import ReactApexChart from 'react-apexcharts';
 import { Typography } from 'antd';
 import { MarketHistoryDataSample } from '../../utils/sample-data';
+import { useState, useEffect } from 'react';
+import { useApi } from '../../hooks/useApi';
 
-function LineChart() {
+function LineChart({ selectedCoin }) {
   const { Title } = Typography;
+  const [data, setData] = useState(MarketHistoryDataSample);
+  const { handleMarketHistoryData } = useApi('bitcoin');
 
-  const dataPoints = MarketHistoryDataSample.prices.map((priceData) => ({
+  console.log(selectedCoin?.id);
+
+  useEffect(() => {
+    handleMarketHistoryData(selectedCoin?.id).then(
+      (res) => {
+        setData(res);
+      },
+      () => {
+        setData(MarketHistoryDataSample);
+      }
+    );
+  }, [handleMarketHistoryData, selectedCoin?.id]);
+
+  const dataPoints = data.prices.map((priceData) => ({
     x: new Date(priceData[0]),
     y: priceData[1],
   }));
