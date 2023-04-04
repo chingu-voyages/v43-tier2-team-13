@@ -23,14 +23,15 @@ import {
   Form,
   Input,
   Switch,
-} from "antd";
-import signinbg from "../assets/images/img-signin.jpg";
+} from 'antd';
+import signinbg from '../assets/images/img-signin.jpg';
 import {
   DribbbleOutlined,
   TwitterOutlined,
   InstagramOutlined,
   GithubOutlined,
-} from "@ant-design/icons";
+} from '@ant-design/icons';
+
 function onChange(checked) {
   console.log(`switch to ${checked}`);
 }
@@ -116,16 +117,16 @@ const signin = [
     />
   </svg>,
 ];
+
 export default function SignIn() {
-  const navigate = useHistory();
-  const goToHomePage = () => navigate('/');
+  const history = useHistory();
   
     const onFinish = (values) => {
       console.log("Success:", values);
       signInWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
         // Signed in 
-        goToHomePage()
+        history.push('/')
         // ...
       })
       .catch((error) => {
