@@ -128,6 +128,7 @@ export default function Watchlist(props) {
         title: '',
         key: 'remove',
         dataIndex: 'remove',
+        width: '100px',
         render: (text, record) => (
           <span
             style={{
@@ -155,8 +156,9 @@ export default function Watchlist(props) {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
+        width: '320px',
         render: (text, record) => (
-          <Space size="middle">
+          <Space size="small">
             <img
               src={record.image}
               style={{ minWidth: '25px', maxWidth: '25px' }}
@@ -192,7 +194,7 @@ export default function Watchlist(props) {
 
     return (
       <div>
-        {userUID ? (
+        {userUID && watchlistCoinIDs.length > 0 ? (
           <Table
               columns={columns}
               dataSource={watchlistCoins}
