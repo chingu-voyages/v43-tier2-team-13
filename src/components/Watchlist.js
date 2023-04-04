@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
 import WatchlistCoin from '../watchlistClassConstructor';
-import { ref, child, update, onValue, push, get, query, orderByValue, equalTo, remove, getDatabase } from "firebase/database";
+import { ref, update, push, get, query, orderByValue, equalTo, remove } from "firebase/database";
 import { cryptoWorldDB, db } from '../firebaseConfig';
 import { Table, Row, Col, Space } from "antd";
 
