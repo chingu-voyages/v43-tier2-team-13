@@ -70,8 +70,31 @@ function LineChart({ selectedCoin }) {
   return (
     <>
       <div className="linechart">
-        <div>
-          <Title level={5}>Price Chart</Title>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <>
+            <Title level={5}>Price Chart</Title>
+            <div
+              className="icon-box"
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: '20px',
+                maxHeight: '30px',
+                minWidth: '150px',
+              }}
+            >
+              <Title level={5} style={{ color: 'white' }}>
+                {selectedCoin?.id}
+              </Title>
+            </div>
+          </>
         </div>
       </div>
 
