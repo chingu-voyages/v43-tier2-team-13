@@ -260,24 +260,24 @@ export default class SignIn extends Component {
           </Content>
           <Footer>
             <Menu mode="horizontal">
-              <Menu.Item>Company</Menu.Item>
-              <Menu.Item>About Us</Menu.Item>
-              <Menu.Item>Teams</Menu.Item>
-              <Menu.Item>Products</Menu.Item>
-              <Menu.Item>Blogs</Menu.Item>
-              <Menu.Item>Pricing</Menu.Item>
+              <Menu.Item key={5}>Company</Menu.Item>
+              <Menu.Item key={6}>About Us</Menu.Item>
+              <Menu.Item key={7}>Teams</Menu.Item>
+              <Menu.Item key={8}>Products</Menu.Item>
+              <Menu.Item key={9}>Blogs</Menu.Item>
+              <Menu.Item key={10}>Pricing</Menu.Item>
             </Menu>
             <Menu mode="horizontal" className="menu-nav-social">
-              <Menu.Item>
+              <Menu.Item key={11}>
                 <Link to="#">{<DribbbleOutlined />}</Link>
               </Menu.Item>
-              <Menu.Item>
+              <Menu.Item key={12}>
                 <Link to="#">{<TwitterOutlined />}</Link>
               </Menu.Item>
-              <Menu.Item>
+              <Menu.Item key={13}>
                 <Link to="#">{<InstagramOutlined />}</Link>
               </Menu.Item>
-              <Menu.Item>
+              <Menu.Item key={14}>
                 <Link to="#">
                   <svg
                     width="18"
@@ -289,7 +289,7 @@ export default class SignIn extends Component {
                   </svg>
                 </Link>
               </Menu.Item>
-              <Menu.Item>
+              <Menu.Item key={15}>
                 <Link to="#">{<GithubOutlined />}</Link>
               </Menu.Item>
             </Menu>
