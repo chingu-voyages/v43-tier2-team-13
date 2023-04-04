@@ -140,8 +140,7 @@ const Home = () => {
                 </div>
               ) : (
                 <>
-                  <div style={{ paddingInline: '24px', marginBottom: '12px' }}>
-                    <Title level={4}>Search Coin</Title>
+                  <div style={{ paddingInline: '24px', marginBlock: '12px' }}>
                     <Input
                       className="header-search"
                       placeholder="Search..."
