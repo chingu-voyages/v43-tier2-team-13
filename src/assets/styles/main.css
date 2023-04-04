@@ -379,7 +379,7 @@ body {
   background: transparent;
   position: relative;
   min-height: 100vh;
-  width: 100%;
+  max-width: 1280px;
   flex-shrink: 0;
 }
 
@@ -406,7 +406,6 @@ body {
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;
-  margin-top: 4px;
 }
 .layout-dashboard .header-control {
   display: flex;
@@ -783,6 +782,8 @@ ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light.left-nav
 }
 .ant-layout {
   background: #fafafa;
+  display: grid;
+  /* place-content: center; */
 }
 .pageheader {
   display: flex;
