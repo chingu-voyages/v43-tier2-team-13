@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react'
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
 import WatchlistCoin from '../watchlistClassConstructor';
-import { ref, child, update, onValue, push, get, query, orderByValue, equalTo, remove, getDatabase } from "firebase/database";
+import { ref, update, push, get, query, orderByValue, equalTo, remove } from "firebase/database";
 import { cryptoWorldDB, db } from '../firebaseConfig';
-import { Table, Row, Col, Space } from "antd";
+import { Table, Space } from "antd";
 
 export default function Watchlist(props) {
     const {addToWatchlist, allCoins}  = props
@@ -124,61 +124,83 @@ export default function Watchlist(props) {
     }
 
     const columns = [
-        {    
-            title: 'Rank',
-            dataIndex: 'rank',
-            key: 'rank',
-        },
-        {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-            render: (text, record) =>   (<Space size="middle">
-                                            <img src={record.image} style={{minWidth: '25px', maxWidth: '25px'}} alt='coin symbol'/>
-                                            <span>{text} ({record.symbol})</span>
-                                        </Space>),
-        },
-        {
-            title: 'Price',
-            dataIndex: 'currentPrice',
-            key: 'currentPrice',
-        },
-        {
-            title: 'Market Cap',
-            key: 'mktCap',
-            dataIndex: 'mktCap'
-        },
-        {
-            title: 'High 24h',
-            key: 'high24h',
-            dataIndex: 'high24h'
-        },
-        {
-            title: 'Low 24h',
-            key: 'low24h',
-            dataIndex: 'low24h'
-        },
-        {
-            title: '',
-            key: 'remove',
-            dataIndex: 'remove',
-            render: (text, record) => <span style={{textDecoration: 'underline', color: 'blue', cursor: 'pointer'}} id={record.id} onClick={(event) => removeFromWatchlist(event)}>Remove</span>
-        },
+      {
+        title: '',
+        key: 'remove',
+        dataIndex: 'remove',
+        width: '100px',
+        render: (text, record) => (
+          <span
+            style={{
+              textDecoration: 'underline',
+              color: 'blue',
+              cursor: 'pointer',
+            }}
+            id={record.id}
+            onClick={(event) => removeFromWatchlist(event)}
+          >
+            <i
+              className="fa-solid fa-star"
+              style={{
+                fontSize: '16px',
+                color: 'orange',
+                cursor: 'pointer',
+                marginBottom: '7px',
+              }}
+              id={record.id}
+            ></i>
+          </span>
+        ),
+      },
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+        width: '320px',
+        render: (text, record) => (
+          <Space size="small">
+            <img
+              src={record.image}
+              style={{ minWidth: '25px', maxWidth: '25px' }}
+              alt="coin symbol"
+            />
+            <span>
+              {text} ({record.symbol})
+            </span>
+          </Space>
+        ),
+      },
+      {
+        title: 'Price',
+        dataIndex: 'currentPrice',
+        key: 'currentPrice',
+      },
+      {
+        title: 'Market Cap',
+        key: 'mktCap',
+        dataIndex: 'mktCap',
+      },
+      {
+        title: 'High 24h',
+        key: 'high24h',
+        dataIndex: 'high24h',
+      },
+      {
+        title: 'Low 24h',
+        key: 'low24h',
+        dataIndex: 'low24h',
+      },
     ];
 
     return (
       <div>
-        {userUID ? (
-          <Row gutter={[24, 0]}>
-            <Col xs={24} sm={24} md={24} lg={24} xl={24} className="mb-24">
-              <Table
-                className="watchlist-table"
-                columns={columns}
-                dataSource={watchlistCoins}
-                title={() => 'Watchlist'}
-              />
-            </Col>
-          </Row>
+        {userUID && watchlistCoinIDs.length > 0 ? (
+          <Table
+              columns={columns}
+              dataSource={watchlistCoins}
+              title={() => 'Watchlist'}
+              scroll={{ x: 'max-content'}}
+            />
         ) : null}
       </div>
     );
