@@ -18,7 +18,7 @@ function LineChart({ selectedCoin }) {
         setData(MarketHistoryDataSample);
       }
     );
-  }, [handleMarketHistoryData, selectedCoin?.id]);
+  }, [selectedCoin?.id]);
 
   const dataPoints = data.prices.map((priceData) => ({
     x: new Date(priceData[0]),
@@ -27,7 +27,7 @@ function LineChart({ selectedCoin }) {
 
   const lineChart = {
     options: {
-      colors: ['#41e2ba'],
+      colors: ['#1990FF'],
       xaxis: {
         type: 'datetime',
         labels: {
@@ -48,7 +48,7 @@ function LineChart({ selectedCoin }) {
       },
       yaxis: {
         labels: {
-          formatter: (value) => Math.floor(value),
+          formatter: (value) => parseFloat(value).toFixed(2),
           style: {
             colors: '#000',
             fontWeight: 'bold',
