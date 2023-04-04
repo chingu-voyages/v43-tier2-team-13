@@ -122,14 +122,15 @@ export default function Watchlist(props) {
     ];
 
     return (
-        <div> 
-            {watchlistCoins.length > 0 
-                ?   <Row gutter={[24, 0]}>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24} className="mb-24">
-                            <Table className="watchlist-table" columns={columns} dataSource={watchlistCoins} title={() => 'Watchlist'}/>
-                        </Col>
-                    </Row>
-                :   null}
-        </div>
-    )
+        <Row gutter={[24, 0]}>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24} className="mb-24">
+            <Table
+              className="table-responsive"
+              columns={columns}
+              dataSource={watchlistCoins}
+              title={() => 'Watchlist'}
+            />
+          </Col>
+        </Row>
+    );
 }
