@@ -12,6 +12,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import React, { Component } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Layout,
   Menu,
@@ -116,14 +117,15 @@ const signin = [
     />
   </svg>,
 ];
-export default class SignUp extends Component {
-  render() {
+export default function SignUp() {
+  const history = useHistory();
+
     const onFinish = (values) => {
       console.log("Success:", values);
       createUserWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
         // Signed in 
-        const user = userCredential.user;
+        history.push('/')
         // ...
       })
       .catch((error) => {
@@ -308,4 +310,3 @@ export default class SignUp extends Component {
       </>
     );
   }
-}
