@@ -31,11 +31,17 @@ export default function Watchlist(props) {
         if(addToWatchlist){
             setCoinToAdd(addToWatchlist)
         }
+        return () => {
+            setCoinToAdd('')
+        }
     }, [addToWatchlist]);
 
     useEffect(() => {
         if(coinToAdd !== ''){
             addCoinToDBWatchlist(coinToAdd)
+        }
+        return () => {
+            setCoinToAdd('')
         }
     }, [coinToAdd])
 
@@ -80,12 +86,18 @@ export default function Watchlist(props) {
         if(userUID){
             updateUserWatchlist()
         }
+        return () => {
+            setWatchlistCoinIDs([])
+        }
       }, [userUID]);
 
 
     useEffect(() => {
         if(allCoins?.length > 1){
             renderWatchListCoins(watchlistCoinIDs)
+        }
+        return () => {
+            setWatchlistCoins([])
         }
     }, [watchlistCoinIDs])
 

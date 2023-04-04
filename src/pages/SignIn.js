@@ -12,7 +12,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   Layout,
   Menu,
@@ -23,14 +23,15 @@ import {
   Form,
   Input,
   Switch,
-} from "antd";
-import signinbg from "../assets/images/img-signin.jpg";
+} from 'antd';
+import signinbg from '../assets/images/img-signin.jpg';
 import {
   DribbbleOutlined,
   TwitterOutlined,
   InstagramOutlined,
   GithubOutlined,
-} from "@ant-design/icons";
+} from '@ant-design/icons';
+
 function onChange(checked) {
   console.log(`switch to ${checked}`);
 }
@@ -116,15 +117,16 @@ const signin = [
     />
   </svg>,
 ];
-export default class SignIn extends Component {
-  render() {    
-    
+
+export default function SignIn() {
+  const history = useHistory();
+  
     const onFinish = (values) => {
       console.log("Success:", values);
       signInWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
         // Signed in 
-        const user = userCredential.user;
+        history.push('/')
         // ...
       })
       .catch((error) => {
@@ -302,4 +304,4 @@ export default class SignIn extends Component {
       </>
     );
   }
-}
+
