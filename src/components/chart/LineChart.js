@@ -1,5 +1,5 @@
 import ReactApexChart from 'react-apexcharts';
-import { Typography } from 'antd';
+import { Typography, Button } from 'antd';
 import { MarketHistoryDataSample } from '../../utils/sample-data';
 import { useState, useEffect } from 'react';
 import { useApi } from '../../hooks/useApi';
@@ -7,10 +7,11 @@ import { useApi } from '../../hooks/useApi';
 function LineChart({ selectedCoin }) {
   const { Title } = Typography;
   const [data, setData] = useState(MarketHistoryDataSample);
-  const { handleMarketHistoryData } = useApi('bitcoin');
+  const [days, setDays] = useState(14);
+  const { handleMarketHistoryData } = useApi(selectedCoin?.id, days);
 
   useEffect(() => {
-    handleMarketHistoryData(selectedCoin?.id).then(
+    handleMarketHistoryData(selectedCoin?.id, days).then(
       (res) => {
         setData(res);
       },
@@ -18,7 +19,7 @@ function LineChart({ selectedCoin }) {
         setData(MarketHistoryDataSample);
       }
     );
-  }, [selectedCoin?.id]);
+  }, [selectedCoin?.id, days]);
 
   const dataPoints = data.prices.map((priceData) => ({
     x: new Date(priceData[0]),
@@ -106,6 +107,39 @@ function LineChart({ selectedCoin }) {
         height={350}
         width={'100%'}
       />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'end',
+          alignItems: 'center',
+        }}
+      >
+        <Button
+          type="primary"
+          className="ant-btn-sm ant-btn-block"
+          style={{
+            maxWidth: '90px',
+            backgroundColor: days === 14 ? '#52C41A' : '',
+            borderColor: days === 14 ? '#52C41A' : '',
+          }}
+          onClick={() => setDays(14)}
+        >
+          14 days
+        </Button>
+        <Button
+          type="primary"
+          className="ant-btn-sm ant-btn-block"
+          style={{
+            maxWidth: '90px',
+            backgroundColor: days === 30 ? '#52C41A' : '',
+            borderColor: days === 30 ? '#52C41A' : '',
+            marginLeft: '10px',
+          }}
+          onClick={() => setDays(30)}
+        >
+          30 days
+        </Button>
+      </div>
     </>
   );
 }
