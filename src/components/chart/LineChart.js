@@ -9,8 +9,6 @@ function LineChart({ selectedCoin }) {
   const [data, setData] = useState(MarketHistoryDataSample);
   const { handleMarketHistoryData } = useApi('bitcoin');
 
-  console.log(selectedCoin?.id);
-
   useEffect(() => {
     handleMarketHistoryData(selectedCoin?.id).then(
       (res) => {
