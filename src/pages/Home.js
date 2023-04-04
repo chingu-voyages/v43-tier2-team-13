@@ -1,5 +1,3 @@
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../firebaseConfig';
 import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi';
 import Watchlist from '../components/Watchlist';
@@ -19,28 +17,26 @@ const Home = () => {
   const [filteredCoins, setFilteredCoins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCoin, setSelectedCoin] = useState(sampleData);
-  const [addToWatchlist, setAddToWatchlist] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [userUID, setUserUID] = useState('');
+  const [addToWatchlist, setAddToWatchlist] = useState();
   const { handleAllCoins } = useApi();
 
   // ----------------- UseEffects -----------------
   // Use API data if request is resolved and use sampledata if it is rejected
   useEffect(() => {
-    handleAllCoins().then(
-      (res) => {
-        setCoins(res);
-        setFilteredCoins(res);
-        setSelectedCoin(res[0]);
-        setIsLoading(false);
-      },
-      () => {
+    // handleAllCoins().then(
+    //   (res) => {
+    //     setCoins(res);
+    //     setFilteredCoins(res);
+    //     setSelectedCoin(res[0]);
+    //     setIsLoading(false);
+    //   },
+    //   () => {
         setCoins(sampleData);
         setFilteredCoins(sampleData);
         setSelectedCoin(sampleData[0]);
         setIsLoading(false);
-      }
-    );
+      // }
+    // );
   }, []);
 
   //------------- Event Handlers -----------------
@@ -113,25 +109,6 @@ const Home = () => {
     },
   ];
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid;
-        console.log(uid, 'logged in');
-        setLoggedIn(true);
-        setUserUID(uid);
-        // ...
-      } else {
-        setLoggedIn(false);
-        setUserUID('');
-        // User is signed out
-        // ...
-      }
-    });
-  }, []);
-
   return (
     <>
       <div className="layout-content">
@@ -147,7 +124,7 @@ const Home = () => {
         </Row>
 
         <Row gutter={[24, 0]}>
-          <Col xs={24} sm={24} md={24} lg={24} xl={24} className="mb-24">
+          <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24">
             <Card bordered={false} className="criclebox h-full">
               <LineChart selectedCoin={selectedCoin} />
             </Card>
@@ -216,7 +193,6 @@ const Home = () => {
                                   onClick={handleClick}
                                   id={coin.id}
                                 ></i>
-                                {/* <StarOutlined id={coin.id} style={{ fontSize: '16px' }} onClick={handleClick}/> */}
                               </td>
                               <td>
                                 <h6
@@ -309,12 +285,12 @@ const Home = () => {
             </Card>
           </Col>
         </Row>
-        <Watchlist
-          allCoins={coins}
-          addToWatchlist={addToWatchlist}
-          loggedIn={loggedIn}
-          userUID={userUID}
-        />
+        {isLoading ? null : (
+          <Watchlist
+            allCoins={coins}
+            addToWatchlist={addToWatchlist}
+          />
+        )}
       </div>
     </>
   );
