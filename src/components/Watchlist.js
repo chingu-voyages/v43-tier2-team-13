@@ -1,17 +1,34 @@
 import React, {useEffect, useState} from 'react'
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
 import WatchlistCoin from '../watchlistClassConstructor';
-import { ref, child, update, onValue, push, get, query, orderByValue, equalTo, remove } from "firebase/database";
+import { ref, child, update, onValue, push, get, query, orderByValue, equalTo, remove, getDatabase } from "firebase/database";
 import { cryptoWorldDB, db } from '../firebaseConfig';
 import { Table, Row, Col, Space } from "antd";
 
 export default function Watchlist(props) {
-    const {addToWatchlist, allCoins, loggedIn, userUID}  = props
+    const {addToWatchlist, allCoins}  = props
     const [coinToAdd, setCoinToAdd] = useState('')
     const [watchlistCoinIDs, setWatchlistCoinIDs] = useState([])
     const [watchlistCoins, setWatchlistCoins] = useState([])
-    
+    const [userUID, setUserUID] = useState();
+
     useEffect(() => {
-        if(addToWatchlist.length > 1){
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            // User is signed in
+            const uid = user.uid;
+            setUserUID(uid);
+          } else {
+            setUserUID('');
+            setWatchlistCoinIDs([])
+            // User is signed out
+          }
+        });
+      }, []);
+
+    useEffect(() => {
+        if(addToWatchlist){
             setCoinToAdd(addToWatchlist)
         }
     }, [addToWatchlist]);
@@ -22,28 +39,54 @@ export default function Watchlist(props) {
         }
     }, [coinToAdd])
 
+    function updateUserWatchlist(){
+        const dbRef = ref(db, `/cryptoWorld/users/${userUID}/watchlist/`)
+            get(dbRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    setWatchlistCoinIDs(Object.values(snapshot.val()));
+                } else {
+                    setWatchlistCoinIDs([]);
+                }
+              }).catch((error) => {
+                console.error(error);
+              });
+    }
 
-    function addCoinToDBWatchlist(coinID){        
-        if (watchlistCoinIDs.some((coin) => coin === coinID)) {
-            console.log('already watchlisted');
-        } else {
-            const newPostKey = push(child(ref(db), 'watchlist')).key;
-            const updates = {};
-            updates[`/sharedPublicWatchlist/` + newPostKey] = coinID;
-            update(cryptoWorldDB, updates);
-        }
+    function addCoinToDBWatchlist(coinID) {
+      if (userUID) {
+        const itemsRef = ref(db, `/cryptoWorld/users/${userUID}/watchlist/`);
+        const queryRef = query(itemsRef, orderByValue(), equalTo(coinID));
+        get(queryRef)
+          .then((snapshot) => {
+            if (snapshot.size === 0) {
+              const newPostKey = push(itemsRef).key;
+              const updates = {};
+              updates[`/users/${userUID}/watchlist/` + newPostKey] = coinID;
+              update(cryptoWorldDB, updates);
+            } else {
+              console.log('Coin already in watchlist');
+            }
+          })
+          .catch((error) => {
+            console.log('Error finding item: ', error);
+          })
+          .then(() => {
+            updateUserWatchlist()
+            });
+      }
     }
 
     useEffect(() => {
-        const dbRef = ref(db, `/cryptoWorld/sharedPublicWatchlist/`)
-        onValue(dbRef, (snapshot) => {
-            snapshot.exists() ? setWatchlistCoinIDs(Object.values(snapshot.val())) : setWatchlistCoinIDs([])
-        })
-      }, []);
+        if(userUID){
+            updateUserWatchlist()
+        }
+      }, [userUID]);
 
 
     useEffect(() => {
-        renderWatchListCoins(watchlistCoinIDs)
+        if(allCoins?.length > 1){
+            renderWatchListCoins(watchlistCoinIDs)
+        }
     }, [watchlistCoinIDs])
 
     function renderWatchListCoins(dbdata){
@@ -55,22 +98,24 @@ export default function Watchlist(props) {
     }
 
     const findItemKeyAndRemove = (id) => {
-        const itemsRef = ref(db, `/cryptoWorld/sharedPublicWatchlist/`);
+        const itemsRef = ref(db, `/cryptoWorld/users/${userUID}/watchlist/`);
         const queryRef = query(itemsRef, orderByValue(), equalTo(id));
         get(queryRef)
           .then((snapshot) => {
             snapshot.forEach((childSnapshot) => {
               const itemKey = childSnapshot.key;
-              const itemRef = ref(db, `/cryptoWorld/sharedPublicWatchlist/${itemKey}`);
+              const itemRef = ref(db, `/cryptoWorld/users/${userUID}/watchlist/${itemKey}`);
               remove(itemRef)
                 .then(() => {
                   console.log("Item removed successfully.", itemRef);
+                  setWatchlistCoinIDs(watchlistCoinIDs.filter(coinID => coinID !== id))
                 })
             });
           })
           .catch((error) => {
             console.log("Error finding item: ", error);
           });
+
       }
 
     function removeFromWatchlist(e){
@@ -122,14 +167,19 @@ export default function Watchlist(props) {
     ];
 
     return (
-        <div> 
-            {watchlistCoins.length > 0 
-                ?   <Row gutter={[24, 0]}>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24} className="mb-24">
-                            <Table className="watchlist-table" columns={columns} dataSource={watchlistCoins} title={() => 'Watchlist'}/>
-                        </Col>
-                    </Row>
-                :   null}
-        </div>
-    )
+      <div>
+        {userUID ? (
+          <Row gutter={[24, 0]}>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24} className="mb-24">
+              <Table
+                className="watchlist-table"
+                columns={columns}
+                dataSource={watchlistCoins}
+                title={() => 'Watchlist'}
+              />
+            </Col>
+          </Row>
+        ) : null}
+      </div>
+    );
 }
