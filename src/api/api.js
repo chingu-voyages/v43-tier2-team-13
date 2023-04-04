@@ -1,4 +1,4 @@
-import { BASE_URL, MARKET_HISTORY_URL } from '../constants';
+import { BASE_URL } from '../constants';
 
 const checkResponse = async (res) => {
   if (res.ok) {

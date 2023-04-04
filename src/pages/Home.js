@@ -3,7 +3,6 @@ import { auth } from '../firebaseConfig';
 import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi';
 import Watchlist from '../components/Watchlist';
-import Echart from '../components/chart/EChart';
 import LineChart from '../components/chart/LineChart';
 import { HomeCards } from '../components/home-cards/home-cards.component';
 import { CardLoader } from '../components/card-loader/card-loader.component';
@@ -148,14 +147,9 @@ const Home = () => {
         </Row>
 
         <Row gutter={[24, 0]}>
-          <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24">
+          <Col xs={24} sm={24} md={24} lg={24} xl={24} className="mb-24">
             <Card bordered={false} className="criclebox h-full">
-              <Echart coinId={selectedCoin[0].id} />
-            </Card>
-          </Col>
-          <Col xs={24} sm={24} md={12} lg={12} xl={14} className="mb-24">
-            <Card bordered={false} className="criclebox h-full">
-              <LineChart />
+              <LineChart selectedCoin={selectedCoin} />
             </Card>
           </Col>
         </Row>

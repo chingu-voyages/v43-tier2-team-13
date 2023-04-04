@@ -1,18 +1,33 @@
 import ReactApexChart from 'react-apexcharts';
 import { Typography } from 'antd';
 import { MarketHistoryDataSample } from '../../utils/sample-data';
+import { useState, useEffect } from 'react';
+import { useApi } from '../../hooks/useApi';
 
-function LineChart() {
+function LineChart({ selectedCoin }) {
   const { Title } = Typography;
+  const [data, setData] = useState(MarketHistoryDataSample);
+  const { handleMarketHistoryData } = useApi('bitcoin');
 
-  const dataPoints = MarketHistoryDataSample.prices.map((priceData) => ({
+  useEffect(() => {
+    handleMarketHistoryData(selectedCoin?.id).then(
+      (res) => {
+        setData(res);
+      },
+      () => {
+        setData(MarketHistoryDataSample);
+      }
+    );
+  }, [selectedCoin?.id]);
+
+  const dataPoints = data.prices.map((priceData) => ({
     x: new Date(priceData[0]),
     y: priceData[1],
   }));
 
   const lineChart = {
     options: {
-      colors: ['#41e2ba'],
+      colors: ['#1990FF'],
       xaxis: {
         type: 'datetime',
         labels: {
@@ -33,7 +48,7 @@ function LineChart() {
       },
       yaxis: {
         labels: {
-          formatter: (value) => Math.floor(value),
+          formatter: (value) => parseFloat(value).toFixed(2),
           style: {
             colors: '#000',
             fontWeight: 'bold',
@@ -55,8 +70,31 @@ function LineChart() {
   return (
     <>
       <div className="linechart">
-        <div>
-          <Title level={5}>Price Chart</Title>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <>
+            <Title level={5}>Price Chart</Title>
+            <div
+              className="icon-box"
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: '20px',
+                maxHeight: '30px',
+                minWidth: '150px',
+              }}
+            >
+              <Title level={5} style={{ color: 'white' }}>
+                {selectedCoin?.id}
+              </Title>
+            </div>
+          </>
         </div>
       </div>
 
