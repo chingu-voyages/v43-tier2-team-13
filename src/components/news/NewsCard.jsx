@@ -1,15 +1,14 @@
 import { List } from 'antd';
 import { getCoinNews } from '../../api/api';
 import React, { useEffect, useState } from 'react';
-import { sampleData } from '../../utils/sample-data';
+import newsImage from '../../assets/images/newsImage.png'
 
 const dataSample = Array.from({
   length: 23,
 }).map((_, i) => ({
   href: 'https://ant.design',
-  title: `Ant design part ${i}`,
-  avatar: `https://joesch.moe/api/v1/random?key=${i}`,
-  image: 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
+  title: `Random Crypto News ${i+1}`,
+  image: newsImage,
   description:
     `News Source - ${new Date().toDateString()}`,
   content:

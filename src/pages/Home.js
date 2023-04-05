@@ -17,7 +17,7 @@ const Home = () => {
   const [coins, setCoins] = useState([]);
   const [filteredCoins, setFilteredCoins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedCoin, setSelectedCoin] = useState(sampleData);
+  const [selectedCoin, setSelectedCoin] = useState({id: 'bitcoin'});
   const [addToWatchlist, setAddToWatchlist] = useState();
   const { handleAllCoins } = useApi();
 
