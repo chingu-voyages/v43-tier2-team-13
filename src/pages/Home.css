@@ -5,3 +5,23 @@
 .red-range {
   color: red;
 }
+
+.table-row-head {
+  position: sticky;
+  top: 0;
+  background: white;
+  box-shadow: 0 2px 15px rgb(0 0 0 / 0.1);
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.header-logo > span {
+  font-size: 1.5rem;
+}
+
+.content-center {
+  place-content: center;
+}
