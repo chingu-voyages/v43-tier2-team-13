@@ -9,18 +9,15 @@
   =========================================================
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../../firebaseConfig"
-import { useState, useEffect } from "react";
-import logo from "../../assets/images/logo2.png";
 
-import {
-  Row,
-  Col,
-  Button
-} from "antd";
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../../firebaseConfig';
+import { useState, useEffect } from 'react';
+import logo from '../../assets/images/logo2.png';
 
-import { Link } from "react-router-dom";
+import { Row, Col, Button } from 'antd';
+
+import { Link } from 'react-router-dom';
 
 const profile = [
   <svg
@@ -67,13 +64,13 @@ function Header() {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
-        setLoggedIn(true)
-        console.log(uid, 'logged in')
+        setLoggedIn(true);
+        console.log(uid, 'logged in');
         // ...
       } else {
-        enterLoading(2)
+        enterLoading(2);
         setTimeout(() => {
-        setLoggedIn(false)
+          setLoggedIn(false);
         }, 2000);
         // User is signed out
         // ...
@@ -81,44 +78,52 @@ function Header() {
     });
   }, []);
 
-  function handleSignOut(){
-    signOut(auth).then(() => {
+  function handleSignOut() {
+    signOut(auth)
+      .then(() => {
         // Sign-out successful.
-        console.log('sign out successful')
-    }).catch((error) => {
+        console.log('sign out successful');
+      })
+      .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage)
-    });
-}
+        console.log(errorCode, errorMessage);
+      });
+  }
 
   return (
     <>
       <Row gutter={[24, 0]}>
         <Col span={24} md={6}>
           <div className="header-logo">
-            <img src={logo} alt="Application logo" style={{height: 60}} />
-            <span
-              style={{ textTransform: "capitalize" }}
-            >
-              CryptoWorld
-            </span>
+            <img src={logo} alt="Application logo" style={{ height: 60 }} />
+            <span style={{ textTransform: 'capitalize' }}>CryptoWorld</span>
           </div>
         </Col>
         <Col span={24} md={18} className="header-control">
-          {loggedIn 
-          ? 
+          {loggedIn ? (
             <div>
               {profile}
-              <Button type='default' size='large' loading={loadings[2]} onClick={handleSignOut} style={{cursor: 'pointer'}}>Sign Out</Button>
+              <Button
+                type="default"
+                size="large"
+                loading={loadings[2]}
+                onClick={handleSignOut}
+                style={{ cursor: 'pointer', marginLeft: '10px' }}
+              >
+                Sign Out
+              </Button>
             </div>
-          : 
-          
-          <Link to="/sign-in" className="btn-sign-in">
-            {profile}
-            <span>Sign in</span>
-          </Link>
-          }
+          ) : (
+            <Link
+              to="/sign-in"
+              className="btn-sign-in"
+              style={{ marginLeft: '10px' }}
+            >
+              {profile}
+              <span>Sign in</span>
+            </Link>
+          )}
         </Col>
       </Row>
     </>
@@ -126,4 +131,3 @@ function Header() {
 }
 
 export default Header;
-

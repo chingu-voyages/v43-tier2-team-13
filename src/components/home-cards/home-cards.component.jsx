@@ -9,7 +9,7 @@ export const HomeCards = ({ cardsData }) => {
           <Row align="middle" gutter={[24, 0]}>
             <Col xs={18}>
               <span>{cardsData.title}</span>
-              <Title level={4}>
+              <Title level={5}>
                 {cardsData.value}
                 <small className="bnb2"> {cardsData.percentage}</small>
               </Title>
