@@ -67,7 +67,7 @@ function NewsCard({ selectedCoin }) {
           }
         >
           <List.Item.Meta
-            title={<a href={item.href}>{item.title}</a>}
+            title={<a href={item.href} target='_blank'>{item.title}</a>}
             description={item.description}
           />
           {item.content}
