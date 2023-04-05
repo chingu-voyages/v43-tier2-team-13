@@ -134,7 +134,7 @@ const Home = () => {
               <LineChart selectedCoin={selectedCoin} />
             </Card>
           </Col>
-          <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24" style={{flex: '1 1 0', maxWidth: 'fit-content', minWidth: '46vw'}}>
+          <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24" style={{flex: '1 1 0', maxWidth: 'fit-content'}}>
             <Card bordered={false} className="criclebox">
               <NewsCard selectedCoin={selectedCoin}/>
             </Card>

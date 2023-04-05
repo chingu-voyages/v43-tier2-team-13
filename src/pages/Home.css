@@ -25,3 +25,17 @@
 .content-center {
   place-content: center;
 }
+
+.ant-list-vertical .ant-list-item {
+  flex-wrap: wrap-reverse;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.ant-list-vertical .ant-list-item-extra {
+  margin-left: 0 !important;
+}
+
+.ant-list-item-main {
+  min-width: 30ch;
+}
