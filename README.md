@@ -47,6 +47,8 @@ You may need to create an account and setup the API keys to use the APIs.
 
 ### Local Setup
 
+**Note:** You may first need to fork the repo if you are not a member of Chingu.
+
 To run the project locally first clone the project to your local machine:
 
 ```
