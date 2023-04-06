@@ -14,18 +14,18 @@ export default function Watchlist(props) {
     const [userUID, setUserUID] = useState();
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            // User is signed in
-            const uid = user.uid;
-            setUserUID(uid);
-          } else {
-            setUserUID('');
-            setWatchlistCoinIDs([])
-            // User is signed out
-          }
-        });
-      }, []);
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in
+          const uid = user.uid;
+          setUserUID(uid);
+        } else {
+          setUserUID('');
+          setWatchlistCoinIDs([])
+          // User is signed out
+        }
+      });
+    }, []);
 
     useEffect(() => {
         if(addToWatchlist){
