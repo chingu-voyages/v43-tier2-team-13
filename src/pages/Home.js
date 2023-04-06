@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi';
+import NewsCard from '../components/news/NewsCard';
 import Watchlist from '../components/Watchlist';
 import LineChart from '../components/chart/LineChart';
 import { HomeCards } from '../components/home-cards/home-cards.component';
@@ -11,33 +12,37 @@ import { SearchOutlined } from '@ant-design/icons';
 import './Home.css';
 
 const Home = () => {
-  const { Title, Text } = Typography;
+  const { Title } = Typography;
 
   const [coins, setCoins] = useState([]);
   const [filteredCoins, setFilteredCoins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedCoin, setSelectedCoin] = useState(sampleData);
+  const [selectedCoin, setSelectedCoin] = useState({id: 'bitcoin'});
   const [addToWatchlist, setAddToWatchlist] = useState();
   const { handleAllCoins } = useApi();
 
   // ----------------- UseEffects -----------------
   // Use API data if request is resolved and use sampledata if it is rejected
   useEffect(() => {
-    // handleAllCoins().then(
-    //   (res) => {
-    //     setCoins(res);
-    //     setFilteredCoins(res);
-    //     setSelectedCoin(res[0]);
-    //     setIsLoading(false);
-    //   },
-    //   () => {
-    setCoins(sampleData);
-    setFilteredCoins(sampleData);
-    setSelectedCoin(sampleData[0]);
-    setIsLoading(false);
-    // }
-    // );
+    handleAllCoins().then(
+      (res) => {
+        setCoins(res);
+        setFilteredCoins(res);
+        setSelectedCoin(res[0]);
+        setIsLoading(false);
+      },
+      () => {
+        setCoins(sampleData);
+        setFilteredCoins(sampleData);
+        setSelectedCoin(sampleData[0]);
+        setIsLoading(false);
+      }
+    );
   }, []);
+
+  useEffect(() => {
+    console.log(selectedCoin.id);
+  }, [selectedCoin]) 
 
   //------------- Event Handlers -----------------
   function handleClick(event) {
@@ -124,9 +129,14 @@ const Home = () => {
         </Row>
 
         <Row gutter={[24, 0]}>
-          <Col xs={24} sm={24} md={24} lg={24} xl={24} className="mb-24">
-            <Card bordered={false} className="criclebox h-full">
+          <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24">
+            <Card bordered={false} className="criclebox">
               <LineChart selectedCoin={selectedCoin} />
+            </Card>
+          </Col>
+          <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24" style={{flex: '1 1 0', maxWidth: 'fit-content'}}>
+            <Card bordered={false} className="criclebox">
+              <NewsCard selectedCoin={selectedCoin}/>
             </Card>
           </Col>
         </Row>

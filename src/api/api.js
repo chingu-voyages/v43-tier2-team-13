@@ -44,15 +44,16 @@ export const getMarketHistoryData = async (coinId, days) => {
   }
 };
 
-export const getQueryCoins = async (query) => {
+export const getCoinNews = async (query) => {
+  const NewsAPIKey = 'f85ec7de90de6894fff0948d90e4d585'
   try {
     const response = await fetch(
-      `https://api.coingecko.com/api/v3/search?query=${query}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
+      encodeURI(`https://gnews.io/api/v4/search?q=${query}&lang=en&max=10&sortby=publishedAt&apikey=${NewsAPIKey}`),
+      // {
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      // }
     );
     return await checkResponse(response);
   } catch (error) {
@@ -61,19 +62,3 @@ export const getQueryCoins = async (query) => {
   }
 };
 
-export const getQueryCoinsInfo = async (query) => {
-  const queryURI = encodeURI(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${query}&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en`
-  );
-  try {
-    const response = await fetch(queryURI, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    return await checkResponse(response);
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
