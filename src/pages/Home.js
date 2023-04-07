@@ -17,7 +17,7 @@ const Home = () => {
   const [coins, setCoins] = useState([]);
   const [filteredCoins, setFilteredCoins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedCoin, setSelectedCoin] = useState({id: 'bitcoin'});
+  const [selectedCoin, setSelectedCoin] = useState(sampleData[0]);
   const [addToWatchlist, setAddToWatchlist] = useState();
   const { handleAllCoins } = useApi();
 
@@ -41,7 +41,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log(selectedCoin.id);
+    console.log('Home Effect: ', selectedCoin.id);
   }, [selectedCoin]) 
 
   //------------- Event Handlers -----------------

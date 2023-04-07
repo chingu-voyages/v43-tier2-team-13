@@ -45,15 +45,12 @@ export const getMarketHistoryData = async (coinId, days) => {
 };
 
 export const getCoinNews = async (query) => {
+  console.log('query call');
   const NewsAPIKey = 'f85ec7de90de6894fff0948d90e4d585'
   try {
     const response = await fetch(
       encodeURI(`https://gnews.io/api/v4/search?q=${query}&lang=en&max=10&sortby=publishedAt&apikey=${NewsAPIKey}`),
-      // {
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      // }
+      // encodeURI(`https://newsdata.io/api/1/news?apikey=pub_200511691fdbbc197cd0ed78d7c6876a07aed&q=${query} `)
     );
     return await checkResponse(response);
   } catch (error) {
