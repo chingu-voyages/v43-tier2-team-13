@@ -24,7 +24,7 @@ Users should be able to:
 
 ### Screenshot
 
-![Dashboard Image](./images/Screenshot%202023-03-28%20at%201.22.40%20PM.png)
+![Dashboard Image](./images/Screenshot%202023-04-05%20at%205.25.22%20PM.png)
 
 ### Built with
 
