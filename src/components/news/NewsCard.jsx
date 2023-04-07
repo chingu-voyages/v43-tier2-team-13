@@ -19,7 +19,6 @@ function NewsCard({ selectedCoin }) {
   const [coinNews, setCoinNews] = useState([]);
 
   const mapData = (news) => {
-    console.log('Memo Ran:', news[0]);
     return news.map(info => ({
       href: info.url,
       title: info.title,
@@ -33,7 +32,6 @@ function NewsCard({ selectedCoin }) {
   console.log('Data: ', mappedData);
 
   useEffect(() => {
-    console.log("Effect Run:", selectedCoin.id);
     getCoinNews(`${selectedCoin.id} ${selectedCoin.symbol}`).then(({ articles }) => {
       setCoinNews(articles);
     }).catch((err) => {

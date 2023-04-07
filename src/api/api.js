@@ -45,7 +45,6 @@ export const getMarketHistoryData = async (coinId, days) => {
 };
 
 export const getCoinNews = async (query) => {
-  console.log('query call');
   const NewsAPIKey = 'f85ec7de90de6894fff0948d90e4d585'
   try {
     const response = await fetch(
