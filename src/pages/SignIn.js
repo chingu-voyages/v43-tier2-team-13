@@ -205,10 +205,7 @@ export default function SignIn() {
               </a>
             </Menu.Item>
           </Menu>
-          <p className="copyright">
-            {' '}
-            Copyright © 2023 Chingu by<a href="#pablo">Team 13</a>.
-          </p>
+          <p className="copyright"> Copyright © 2023 Chingu by Team 13.</p>
         </Footer>
       </Layout>
     </>
