@@ -2,31 +2,14 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-  Layout,
-  Menu,
-  Button,
-  Typography,
-  Card,
-  Form,
-  Input,
-  Checkbox,
-} from 'antd';
-import logo1 from '../assets/images/logos-facebook.svg';
-import logo2 from '../assets/images/logo-apple.svg';
-import logo3 from '../assets/images/Google__G__Logo.svg.png';
+import { Layout, Menu, Button, Typography, Card, Form, Input } from 'antd';
 
 import { Link } from 'react-router-dom';
-import {
-  DribbbleOutlined,
-  TwitterOutlined,
-  InstagramOutlined,
-  GithubOutlined,
-} from '@ant-design/icons';
+import { GithubOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 const { Header, Footer, Content } = Layout;
-const template = [
+const template = (
   <svg
     data-v-4ebdc598=""
     width="20"
@@ -53,28 +36,9 @@ const template = [
       fill="#111827"
       className="fill-muted"
     ></path>
-  </svg>,
-];
-const profile = [
-  <svg
-    data-v-4ebdc598=""
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      data-v-4ebdc598=""
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM12 7C12 8.10457 11.1046 9 10 9C8.89543 9 8 8.10457 8 7C8 5.89543 8.89543 5 10 5C11.1046 5 12 5.89543 12 7ZM9.99993 11C7.98239 11 6.24394 12.195 5.45374 13.9157C6.55403 15.192 8.18265 16 9.99998 16C11.8173 16 13.4459 15.1921 14.5462 13.9158C13.756 12.195 12.0175 11 9.99993 11Z"
-      fill="#111827"
-      className="fill-muted"
-    ></path>
-  </svg>,
-];
-const signup = [
+  </svg>
+);
+const signup = (
   <svg
     data-v-4ebdc598=""
     width="20"
@@ -91,9 +55,9 @@ const signup = [
       fill="#111827"
       className="fill-muted"
     ></path>
-  </svg>,
-];
-const signin = [
+  </svg>
+);
+const signin = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="14"
@@ -104,8 +68,8 @@ const signin = [
       className="fill-muted"
       d="M12.25,14H1.75A1.752,1.752,0,0,1,0,12.25V3.5A1.752,1.752,0,0,1,1.75,1.75h.876V.875a.875.875,0,0,1,1.75,0V1.75h5.25V.875a.875.875,0,0,1,1.75,0V1.75h.875A1.752,1.752,0,0,1,14,3.5v8.75A1.752,1.752,0,0,1,12.25,14ZM3.5,4.375a.875.875,0,0,0,0,1.75h7a.875.875,0,0,0,0-1.75Z"
     />
-  </svg>,
-];
+  </svg>
+);
 export default function SignUp() {
   const history = useHistory();
 
@@ -133,9 +97,6 @@ export default function SignUp() {
       <div className="layout-default ant-layout layout-sign-up">
         <Header style={{ padding: '0px' }}>
           <div className="header-col header-nav">
-            <div className="header-col header-brand">
-              <h5 style={{ color: 'black', padding: '10px' }}>CryptoWorld</h5>
-            </div>
             <Menu mode="horizontal" defaultSelectedKeys={['1']}>
               <Menu.Item key="1">
                 <Link to="/dashboard">
@@ -200,7 +161,7 @@ export default function SignUp() {
                   { required: true, message: 'Please input your password!' },
                 ]}
               >
-                <Input placeholder="Password" />
+                <Input.Password placeholder="Password" />
               </Form.Item>
 
               <Form.Item>
@@ -223,7 +184,7 @@ export default function SignUp() {
         </Content>
         <Footer>
           <Menu mode="horizontal" className="menu-nav-social">
-            <Menu.Item>
+            <Menu.Item key="4">
               <a
                 href="https://github.com/chingu-voyages/v43-tier2-team-13"
                 target="_blank"

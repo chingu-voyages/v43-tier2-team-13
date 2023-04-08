@@ -8,7 +8,7 @@ import { GithubOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 const { Header, Footer, Content } = Layout;
-const template = [
+const template = (
   <svg
     data-v-4ebdc598=""
     width="20"
@@ -35,9 +35,9 @@ const template = [
       fill="#111827"
       className="fill-muted"
     ></path>
-  </svg>,
-];
-const signup = [
+  </svg>
+);
+const signup = (
   <svg
     data-v-4ebdc598=""
     width="20"
@@ -54,9 +54,9 @@ const signup = [
       fill="#111827"
       className="fill-muted"
     ></path>
-  </svg>,
-];
-const signin = [
+  </svg>
+);
+const signin = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="14"
@@ -67,8 +67,8 @@ const signin = [
       className="fill-muted"
       d="M12.25,14H1.75A1.752,1.752,0,0,1,0,12.25V3.5A1.752,1.752,0,0,1,1.75,1.75h.876V.875a.875.875,0,0,1,1.75,0V1.75h5.25V.875a.875.875,0,0,1,1.75,0V1.75h.875A1.752,1.752,0,0,1,14,3.5v8.75A1.752,1.752,0,0,1,12.25,14ZM3.5,4.375a.875.875,0,0,0,0,1.75h7a.875.875,0,0,0,0-1.75Z"
     />
-  </svg>,
-];
+  </svg>
+);
 
 export default function SignIn() {
   const history = useHistory();
@@ -94,9 +94,6 @@ export default function SignIn() {
     <>
       <Layout className="layout-default layout-signin">
         <Header>
-          <div className="header-col header-brand">
-            <h5>CryptoWorld</h5>
-          </div>
           <div className="header-col header-nav">
             <Menu mode="horizontal" defaultSelectedKeys={['1']}>
               <Menu.Item key="1">
@@ -162,7 +159,7 @@ export default function SignIn() {
                     },
                   ]}
                 >
-                  <Input placeholder="Password" />
+                  <Input.Password placeholder="Password" />
                 </Form.Item>
 
                 <Form.Item>
@@ -195,7 +192,7 @@ export default function SignIn() {
         </Content>
         <Footer>
           <Menu mode="horizontal" className="menu-nav-social">
-            <Menu.Item key={15}>
+            <Menu.Item key="4">
               <a
                 href="https://github.com/chingu-voyages/v43-tier2-team-13"
                 target="_blank"
