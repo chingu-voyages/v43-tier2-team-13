@@ -92,7 +92,7 @@ function LineChart({ selectedCoin }) {
               }}
             >
               <Title level={5} style={{ color: 'white' }}>
-                {selectedCoin?.id}
+                {selectedCoin?.name}
               </Title>
             </div>
           </>

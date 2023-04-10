@@ -1,10 +1,10 @@
 import { List } from 'antd';
 import { getCoinNews } from '../../api/api';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import newsImage from '../../assets/images/newsImage.png'
 
 const dataSample = Array.from({
-  length: 23,
+  length: 24,
 }).map((_, i) => ({
   href: 'https://ant.design',
   title: `Random Crypto News ${i+1}`,
@@ -17,29 +17,26 @@ const dataSample = Array.from({
 
 function NewsCard({ selectedCoin }) {
   const [coinNews, setCoinNews] = useState([]);
-  const [data, setData] = useState([]);
 
-  const mapData = () => {
-    const mappedData = coinNews.map(info => ({
+  const mapData = (news) => {
+    return news.map(info => ({
       href: info.url,
       title: info.title,
-      image: info.image,
+      image: info.image || newsImage,
       description: `${info.source.name} - ${new Date(info.publishedAt).toDateString()}`,
       content: info.description
     }));
-    setData(mappedData);
   }
+  
+  const mappedData = useMemo(() => mapData(coinNews), [coinNews]);
+  console.log('Data: ', mappedData);
 
   useEffect(() => {
-    getCoinNews(selectedCoin.id).then((res) => {
-      const { articles } = res;
+    getCoinNews(`${selectedCoin.id} ${selectedCoin.symbol}`).then(({ articles }) => {
       setCoinNews(articles);
-      mapData();
     }).catch((err) => {
       console.log(err);
-      setData(dataSample);
     });
-    console.log(data, selectedCoin);
   }, [selectedCoin])
 
 
@@ -53,7 +50,7 @@ function NewsCard({ selectedCoin }) {
         },
         pageSize: 2,
       }}
-      dataSource={data}
+      dataSource={mappedData.length ? mappedData : dataSample}
 
       renderItem={(item) => (
         <List.Item
@@ -61,13 +58,13 @@ function NewsCard({ selectedCoin }) {
           extra={
             <img
               width={272}
-              alt="news image"
+              alt="news representation"
               src={item.image}
             />
           }
         >
           <List.Item.Meta
-            title={<a href={item.href} target='_blank'>{item.title}</a>}
+            title={<a href={item.href} target='_blank' rel="noreferrer">{item.title}</a>}
             description={item.description}
           />
           {item.content}
@@ -77,5 +74,3 @@ function NewsCard({ selectedCoin }) {
   );
 }
 export default NewsCard;
-
-//https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png
