@@ -21,15 +21,14 @@ function NewsCard({ selectedCoin }) {
   const mapData = (news) => {
     return news.map(info => ({
       href: info.url,
-      title: info.title,
+      title: truncateWithEllipses(info.title, 75),
       image: info.image || newsImage,
       description: `${info.source.name} - ${new Date(info.publishedAt).toDateString()}`,
-      content: info.description
+      content: truncateWithEllipses(info.description, 125)
     }));
   }
   
   const mappedData = useMemo(() => mapData(coinNews), [coinNews]);
-  console.log('Data: ', mappedData);
 
   useEffect(() => {
     getCoinNews(`${selectedCoin.id} ${selectedCoin.symbol}`).then(({ articles }) => {
@@ -39,15 +38,16 @@ function NewsCard({ selectedCoin }) {
     });
   }, [selectedCoin])
 
+  function truncateWithEllipses(text, max) {
+    return text.substr(0, max - 1) + (text.length > max ? '...' : '');
+  }
 
   return (
     <List
       itemLayout="vertical"
       size="large"
       pagination={{
-        onChange: (page) => {
-          console.log(page);
-        },
+        onChange: (page) => {},
         pageSize: 2,
       }}
       dataSource={mappedData.length ? mappedData : dataSample}
