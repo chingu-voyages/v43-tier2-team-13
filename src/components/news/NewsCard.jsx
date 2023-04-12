@@ -12,7 +12,7 @@ const dataSample = Array.from({
   description:
     `News Source - ${new Date().toDateString()}`,
   content:
-    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure).',
 }));
 
 function NewsCard({ selectedCoin }) {
@@ -21,10 +21,10 @@ function NewsCard({ selectedCoin }) {
   const mapData = (news) => {
     return news.map(info => ({
       href: info.url,
-      title: truncateWithEllipses(info.title, 75),
+      title: truncateWithEllipses(info.title, 5),
       image: info.image || newsImage,
       description: `${info.source.name} - ${new Date(info.publishedAt).toDateString()}`,
-      content: truncateWithEllipses(info.description, 125)
+      content: truncateWithEllipses(info.description, 20)
     }));
   }
   
@@ -57,7 +57,7 @@ function NewsCard({ selectedCoin }) {
           key={item.title}
           extra={
             <img
-              width={272}
+              width={260}
               alt="news representation"
               src={item.image}
             />
