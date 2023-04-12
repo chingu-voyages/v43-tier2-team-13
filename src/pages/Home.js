@@ -40,10 +40,6 @@ const Home = () => {
     );
   }, []);
 
-  useEffect(() => {
-    console.log('Home Effect: ', selectedCoin.id);
-  }, [selectedCoin]) 
-
   //------------- Event Handlers -----------------
   function handleClick(event) {
     setAddToWatchlist(event.target.id);
