@@ -21,10 +21,10 @@ function NewsCard({ selectedCoin }) {
   const mapData = (news) => {
     return news.map(info => ({
       href: info.url,
-      title: truncateWithEllipses(info.title, 5),
+      title: truncateWithEllipses(info.title, 55),
       image: info.image || newsImage,
       description: `${info.source.name} - ${new Date(info.publishedAt).toDateString()}`,
-      content: truncateWithEllipses(info.description, 20)
+      content: truncateWithEllipses(info.description, 40)
     }));
   }
   
@@ -58,6 +58,7 @@ function NewsCard({ selectedCoin }) {
           extra={
             <img
               width={260}
+              height={162}
               alt="news representation"
               src={item.image}
             />
