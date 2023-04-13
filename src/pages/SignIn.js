@@ -93,7 +93,7 @@ export default function SignIn() {
   return (
     <>
       <Layout className="layout-default layout-signin">
-        <Header>
+        <Header style={{ padding: '0' }}>
           <div className="header-col header-nav">
             <Menu mode="horizontal" defaultSelectedKeys={['1']}>
               <Menu.Item key="1">

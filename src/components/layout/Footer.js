@@ -1,6 +1,7 @@
 import { Layout, Row, Col } from 'antd';
 import { HeartFilled } from '@ant-design/icons';
 import { GithubOutlined } from '@ant-design/icons';
+import './Footer.css';
 
 function Footer() {
   const { Footer: AntFooter } = Layout;
@@ -10,7 +11,7 @@ function Footer() {
       <Row className="just">
         <Col xs={24} md={24} lg={24}>
           <div
-            className="copyright"
+            className="copyright copyright-content"
             style={{ display: 'flex', alignItems: 'center' }}
           >
             © 2023, made with

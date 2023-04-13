@@ -9,9 +9,12 @@ export const HomeCards = ({ cardsData }) => {
           <Row align="middle" gutter={[24, 0]}>
             <Col xs={18}>
               <span>{cardsData.title}</span>
-              <Title level={5}>
+              <Title level={5} style={{ fontSize: '14px' }}>
                 {cardsData.value}
-                <small className="bnb2"> {cardsData.percentage}</small>
+                <small className="bnb2" style={{ paddingLeft: '4px' }}>
+                  {' '}
+                  {cardsData.percentage}
+                </small>
               </Title>
             </Col>
             <Col xs={6}>

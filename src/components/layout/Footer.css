@@ -1,0 +1,6 @@
+@media screen and (max-width: 767px) {
+  .copyright-content {
+    font-size: 11px;
+    padding-left: 10px;
+  }
+}
