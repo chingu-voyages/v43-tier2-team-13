@@ -17,6 +17,14 @@ const dataSample = Array.from({
 
 function NewsCard({ selectedCoin }) {
   const [coinNews, setCoinNews] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const handleResize = () => setWindowWidth(window.innerWidth);
+  
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const mapData = (news) => {
     return news.map(info => ({
@@ -48,7 +56,7 @@ function NewsCard({ selectedCoin }) {
       size="large"
       pagination={{
         onChange: (page) => {},
-        pageSize: 2,
+        pageSize: windowWidth < 1200 ? 1 : 2,
       }}
       dataSource={mappedData.length ? mappedData : dataSample}
 
