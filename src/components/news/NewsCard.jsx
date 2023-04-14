@@ -12,7 +12,7 @@ const dataSample = Array.from({
   description:
     `News Source - ${new Date().toDateString()}`,
   content:
-    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure).',
 }));
 
 function NewsCard({ selectedCoin }) {
@@ -21,15 +21,14 @@ function NewsCard({ selectedCoin }) {
   const mapData = (news) => {
     return news.map(info => ({
       href: info.url,
-      title: info.title,
+      title: truncateWithEllipses(info.title, 55),
       image: info.image || newsImage,
       description: `${info.source.name} - ${new Date(info.publishedAt).toDateString()}`,
-      content: info.description
+      content: truncateWithEllipses(info.description, 40)
     }));
   }
   
   const mappedData = useMemo(() => mapData(coinNews), [coinNews]);
-  console.log('Data: ', mappedData);
 
   useEffect(() => {
     getCoinNews(`${selectedCoin.id} ${selectedCoin.symbol}`).then(({ articles }) => {
@@ -39,15 +38,16 @@ function NewsCard({ selectedCoin }) {
     });
   }, [selectedCoin])
 
+  function truncateWithEllipses(text, max) {
+    return text.substr(0, max - 1) + (text.length > max ? '...' : '');
+  }
 
   return (
     <List
       itemLayout="vertical"
       size="large"
       pagination={{
-        onChange: (page) => {
-          console.log(page);
-        },
+        onChange: (page) => {},
         pageSize: 2,
       }}
       dataSource={mappedData.length ? mappedData : dataSample}
@@ -57,7 +57,8 @@ function NewsCard({ selectedCoin }) {
           key={item.title}
           extra={
             <img
-              width={272}
+              width={260}
+              height={162}
               alt="news representation"
               src={item.image}
             />

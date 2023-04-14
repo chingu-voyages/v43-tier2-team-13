@@ -40,10 +40,6 @@ const Home = () => {
     );
   }, []);
 
-  useEffect(() => {
-    console.log('Home Effect: ', selectedCoin.id);
-  }, [selectedCoin]) 
-
   //------------- Event Handlers -----------------
   function handleClick(event) {
     setAddToWatchlist(event.target.id);
@@ -135,7 +131,7 @@ const Home = () => {
             </Card>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24" style={{flex: '1 1 0', maxWidth: 'fit-content'}}>
-            <Card bordered={false} className="criclebox">
+            <Card bordered={false} className="criclebox" style={{maxWidth: '700px', maxHeight: '467px'}}>
               <NewsCard selectedCoin={selectedCoin}/>
             </Card>
           </Col>
