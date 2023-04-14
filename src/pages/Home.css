@@ -46,3 +46,10 @@
   -webkit-box-orient: vertical;  
   overflow: hidden;
 }
+
+@media only screen and (max-width: 1200px) {
+  .mobile_width {
+    width: 100%;
+    margin: 0 auto;
+  }
+}

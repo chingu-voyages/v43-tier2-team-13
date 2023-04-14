@@ -124,14 +124,14 @@ const Home = () => {
               ))}
         </Row>
 
-        <Row gutter={[24, 0]}>
+        <Row gutter={[24, 0]} style={{display: 'flex', justifyContent: 'center'}}>
           <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24">
             <Card bordered={false} className="criclebox">
               <LineChart selectedCoin={selectedCoin} />
             </Card>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24" style={{flex: '1 1 0', maxWidth: 'fit-content'}}>
-            <Card bordered={false} className="criclebox" style={{maxWidth: '700px', maxHeight: '467px'}}>
+            <Card bordered={false} className="criclebox mobile_width" style={{maxWidth: '700px', maxHeight: '467px'}}>
               <NewsCard selectedCoin={selectedCoin}/>
             </Card>
           </Col>
